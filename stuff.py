@@ -2,7 +2,7 @@
 
 #loading in the kinases file 
 seq_dict = {}
-with open('/home1/bioinfo-10/lab1BIOL4292/lab4/Toxo_Ser_Thr_kinase.fasta') as kinase: 
+with open('file/path') as kinase: 
     for line in kinase: 
         line = line.rstrip()
         if line.startswith(">"):
@@ -26,3 +26,5 @@ def total_bases(seq):
 
 #n content
 def n_content(Seq):  
+
+
