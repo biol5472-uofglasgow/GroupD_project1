@@ -29,3 +29,11 @@ def n_content(seq):
     N_count = seq.count('N')
     n_content = (N_count) / len(seq) * 100
     return round(n_content) 
+
+
+# make a codon table
+bases = "tcag".upper()
+codons = [a + b + c for a in bases for b in bases for c in bases]
+amino_acids = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
+codon_table = dict(zip(codons, amino_acids))
+print(codon_table)
