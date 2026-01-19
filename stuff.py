@@ -37,3 +37,12 @@ codons = [a + b + c for a in bases for b in bases for c in bases]
 amino_acids = 'FFLLSSSSYY**CC*WLLLLPPPPHHQQRRRRIIIMTTTTNNKKSSRRVVVVAAAADDEEGGGG'
 codon_table = dict(zip(codons, amino_acids))
 print(codon_table)
+
+#pyfastx testing: 
+import pyfastx
+
+seq = 'ACGTACGTACGT'
+QScore = seq.qual
+asc_score = seq.quali
+
+print(QScore)
