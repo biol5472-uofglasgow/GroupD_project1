@@ -25,4 +25,7 @@ def total_bases(seq):
     return length 
 
 #n content
-def n_content(Seq):  
+def n_content(seq):  
+    N_count = seq.count('N')
+    n_content = (N_count) / len(seq) * 100
+    return round(n_content)
