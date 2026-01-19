@@ -23,6 +23,3 @@ def calc_gc_content(seq):
 def total_bases(seq): 
     length = len(seq)
     return length 
-
-#n content
-def n_content(Seq)
