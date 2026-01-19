@@ -25,6 +25,4 @@ def total_bases(seq):
     return length 
 
 #n content
-def n_content(Seq):  
-
-
+def n_content(Seq)
