@@ -1,5 +1,5 @@
 #loading in a fasta file: 
-
+#changes test
 #loading in the kinases file 
 seq_dict = {}
 with open('file/path') as kinase: 
