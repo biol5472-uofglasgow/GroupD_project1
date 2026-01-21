@@ -1,20 +1,24 @@
 import pyfastx
 
-def file_format(path):
+
+#function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
+#will return string of either "FASTA" or "FASTQ": 
+def file_format(path) -> str: 
     #can check the headers first: 
     with open(path) as f:
         for line in f:
             line = line.strip()
+            
             if not line:
                 continue
-            if line.startswith(">"):
+            elif line.startswith(">"):
                 return "FASTA"
-            if line.startswith("@"):
+            elif line.startswith("@"):
                 return "FASTQ"
-            break
+            breaks
 
 
-#ALSO this which uses pyfastx and can work if using the headers dont work: 
+#ALSO this which uses pyfastx and can work if using the headers dont work??: 
 """
     try:
         pyfastx.Fastq(path)
@@ -33,18 +37,17 @@ def file_format(path):
 
 
 #obvi switch this for the actual file:
-path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/sampleB.fastq' 
+#is hard coded now but can use the ArgParse:
+path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/sampleA.fastq' 
 
 file_form = file_format(path)
 print(f"file format is : {file_form}")
 
 
 
-
-
-
 """
-now can do if its fasta?: 
+#now can do if its fasta?: 
+#have functions for either FASTQ or FASTA?
 if file_form == "FASTQ":
     FASTQ_parse()
 elif file_form == "FASTA":
@@ -55,7 +58,8 @@ else:
 """
 
 
-#info from the fasta file: 
+#so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
+#extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
 fq = pyfastx.Fastq(path)
 
 #for readcounts: 
@@ -164,9 +168,9 @@ def phred_scores(qual: str) -> list[int]:
     mean_q = sum(scores) / len(scores)
     q30_fraction = sum(1 for q in scores if q >= 30) / len(scores)
 
-    print(scores)         # [0, 0, 0, 0, 40, 40, ...]
-    print(mean_q)         # 30.0
-    print(q30_fraction)   # 0.75
+    print(scores)# [0, 40, 40]
+    print(mean_q)# 30.0
+    print(q30_fraction)# 0.75
 """
 
 
