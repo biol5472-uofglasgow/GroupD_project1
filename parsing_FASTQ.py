@@ -15,7 +15,7 @@ def file_format(path) -> str:
                 return "FASTA"
             elif line.startswith("@"):
                 return "FASTQ"
-            breaks
+            break
 
 
 #ALSO this which uses pyfastx and can work if using the headers dont work??: 
