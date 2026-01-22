@@ -155,17 +155,26 @@ class FASTQ_Qual:
 #sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
 #parsing the FASTA file:
 elif file_form == "FASTA":
-    fa = pyfastx.Fasta(path)
+class Fasta: 
+    def __init__(self, id: str, seq: str) -> None:
+        self.id = id
+        self.seq = seq.upper
+    def fasta_path(self):
+        fa = pyfastx.Fasta(path)
+        return fa
+    
     fasta_read_count = 0
-    fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
-
-    for seq in fa: 
-        fasta_read_count += 1 
-        samp_id = (seq.name) #seq ename
-        #fasta_av_len = (seq.mean) #avg length of bases/ - might need to do count?
-        fasta_gc = (seq.gc_content) #GC fraction
-        n_count = (seq.composition) #shows composition of bases - maybe n content?
-
+    def avg_len(self, fa):
+        fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
+        return fasta_av_len
+    def read_fasta(self, fa):
+        for seq in fa: 
+            fasta_read_count += 1 
+            samp_id = (seq.name) #seq ename
+            #fasta_av_len = (seq.mean) #avg length of bases/ - might need to do count?
+            fasta_gc = (seq.gc_content) #GC fraction
+            n_count = (seq.composition) #shows composition of bases - maybe n content?
+        return fasta_read_count, samp_id, fasta_gc, n_count   
     print(f"fasta read count {fasta_read_count}")
     print(f"sample id {samp_id}")
     print(f"fasta av length {fasta_av_len}")
