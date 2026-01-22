@@ -50,9 +50,8 @@ print(f"file format is : {file_form}")
 class FASTQ:
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
     #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
-    def __init__(self, id: str, seq: str) -> None:
-        self.id = id
-        self.seq = seq
+    def __init__(self, fq: str) -> None:
+        self.fq = fq
     
     # get the path of the FASTQ file and assign it to be fq 
     def FASTQ_path(self) -> str:
@@ -91,9 +90,7 @@ class FASTQ:
     q30_bases = 0 #bases weith quality scores over 30
 
 class FASTQ_Qual:
-    def __init__(self, id: str, seq: str, read_count) -> None:
-        self.id = id
-        self.seq = seq
+    def __init__(self, read_count: str) -> None:
         self._read_count = read_count
 
     @property
@@ -154,9 +151,8 @@ class FASTQ_Qual:
 #parsing the FASTA file:
 
 class Fasta: 
-    def __init__(self, id: str, seq: str) -> None:
-        self.id = id
-        self.seq = seq.upper
+    def __init__(self, fa: str) -> None:
+        self.fa = fa
     def fasta_path(self):
         fa = pyfastx.Fasta(path)
         return fa
@@ -182,10 +178,8 @@ class Fasta:
     #print(f"n count {n_count}")
 
 class Output:
-    def __init__(self, id: str, seq: str) -> None:
-        self.id = id
-        self.seq = seq.upper
-    
+    def __init__(self) -> None:
+        self.fasta_read_count = fasta_read_count
     def write_tsv(self):
         with open('results.tsv', 'w') as output_table:
             output_table.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
