@@ -1,21 +1,23 @@
 import pyfastx
 
-
+class File:
 #function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
 #if theres no "> or @ then will return none, need to add proper error handling into this later"
 #will return string of either "FASTA" or "FASTQ": 
-def file_format(path) -> str: 
-    #can check the headers first: 
-    with open(path) as f:
-        for line in f:
-            line = line.strip()
-            if not line:
-                continue
-            elif line.startswith(">"):
-                return "FASTA"
-            elif line.startswith("@"):
-                return "FASTQ"
-            break
+    def __init__(self, file: str) -> None:
+        self._file = file
+    def file_format(self, path) -> str: 
+        #can check the headers first: 
+        with open(path) as f:
+            for line in f:
+                line = line.strip()
+                if not line:
+                    continue
+                elif line.startswith(">"):
+                    return "FASTA"
+                elif line.startswith("@"):
+                    return "FASTQ"
+                break
 
 
 #ALSO this which uses pyfastx and can work if using the headers dont work??: 
@@ -101,11 +103,14 @@ if file_form == "FASTQ":
             if q >= 30:
                 q30_bases += 1
             #now the mean qual/bases and the mean Q30/bases : 
-    mean_qual = qual_sum / qual_bases
-    q30_fraction = q30_bases / qual_bases
+    def mean_quality() -> float:
+        mean_qual = qual_sum / qual_bases
+        return mean_qual
+    
+    def q30_frac() -> float:
+        q30_fraction = q30_bases / qual_bases
+        return q30_fraction
     print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
-
-    print(f"the read count is {read_count}")
 
 
     #to get the info for the output file : mean wual and Q30: 
