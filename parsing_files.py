@@ -110,53 +110,91 @@ class FASTQ(FastQ_Typing):
         return(p_score)
     #read counts
 
-    read_count = 0
-    qual_sum = 0 #total sum of all the ASCII values
-    qual_bases = 0 #the bases
-    q30_bases = 0 #bases weith quality scores over 30
 
-class FASTQ_Qual:
 
-    def __init__(self, id: str, seq: str, read_count) -> None:
+class FASTQ_Qual_Typing(Protocol):
+
+    fq = pyfastx.Fastq
+    id: str
+    seq: str
+    read_count: int
+
+    q: int
+    qual_sum: float
+    qual_bases: float
+
+    q30_bases: int
+    
+    
+
+class FASTQ_Qual(FASTQ_Qual_Typing):
+
+
+    def __init__(self, id, seq, read_count) -> None:
         self._self = self
         self._id = id
         self._seq = seq
         self._read_count = read_count
 
-    @property
-    def id(self) -> str:
-        return self._read_count 
+    # @property
+    # def id(self) -> str:
+    #     return self._read_count 
 
-    def read_info(self, fq):
+# a tidier way of storing these, may be preferred over the list method used in read_info, can link with output writing when needed
+    @staticmethod
+    def iter_reads(fq):
+        for r in fq:
+            yield r.name, r.seq, r.qual
+
+    @staticmethod
+    def read_info(fq):
+        read_count = 0
+        qual_sum = 0 #total sum of all the ASCII values
+        qual_bases = 0 #the bases
+        q30_bases = 0 #bases weith quality scores over 30
+
+        reads = [] #store per read info, we will write this to the output file in order ******* NOTE, Some fastq files have samples in order and some DO NOT, how to handle this?
     #get info for all reads in the file: 
         for r in fq:
             read_count += 1
-            read_name = (r.name)  #name of read
-            read_seq = (r.seq)  #read sequence
-            read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
+            # read_name = (r.name)  #name of read
+            # read_seq = (r.seq)  #read sequence
+            # read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
             numeric_read_qual = (r.quali) #numerical value of the read quality (40, 0) ect
             
-            for q in r.quali:
+            # reads.append((read_name, read_seq, read_qual)) #adding the read info variables for each read to the list remove this if going with def method
+
+            for q in numeric_read_qual:
                 qual_sum += q   #adds the number to qual_sum
                 qual_bases += 1 #counts the bases
                 #if the quality is over 30 then add to over 30 bases: 
                 if q >= 30:
                     q30_bases += 1
-                #now the mean qual/bases and the mean Q30/bases : 
-        return read_count, read_name, read_seq, read_qual, numeric_read_qual, qual_sum, qual_bases, q30_bases 
-    # @staticmethod  
-    def mean_quality(self, qual_sum, qual_bases) -> float:
-        mean_qual = qual_sum / qual_bases
-        return mean_qual
+             
+        return {
+            # "reads": reads, #IF iter_reads IS USED OVER THE LIST STORAGE METHOD, REMOVE THIS LINE
+            # "read_count": read_count, #IF iter_reads IS USED, REMOVE THIS LINE
+            "mean_qual": qual_sum / qual_bases if qual_bases else 0,
+            "q30_fraction": q30_bases /qual_bases if qual_bases else 0,
+        }
+'''           
+instead of returning every variable in a long string in order to use the mean_quality and q30_frac methods
+calculate the values within the read_info function, assign to new variables, and then return them.
+Can still use the returned values for writing output this way
+# '''   
+    # def mean_quality(qual_sum, qual_bases) -> float:
+    #     mean_qual = qual_sum / qual_bases
+    #     return mean_qual
     
-    def q30_frac(self, q30_bases, qual_bases) -> float:
-        q30_fraction = q30_bases / qual_bases
-        return q30_fraction
+   
+    # def q30_frac(q30_bases, qual_bases) -> float:
+    #     q30_fraction = q30_bases / qual_bases
+    #     return q30_fraction
     # print(f"mean qual {self.mean_qual}, q30 fraction  {30_fraction}")
 
 
     #additional info?/stuff I found on the documentation website/adjusted for this: 
-    """
+"""
     ##this could work for parsing fasta/fastq:
     try:
         fq = pyfastx.Fastq(path)
@@ -169,7 +207,7 @@ class FASTQ_Qual:
 
 
     #for iterating: 
-    """
+"""
     for name, seq, qual in pyfastx.Fastq('/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/sampleB.fastq', build_index=False): 
         print(name)
         print(seq)
