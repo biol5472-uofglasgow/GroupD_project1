@@ -1,4 +1,5 @@
 import pyfastx
+path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
 class File:
     #function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
@@ -6,8 +7,8 @@ class File:
     #will return string of either "FASTA" or "FASTQ": 
     def __init__(self, file: str) -> None:
         self._file = file
-
-    def file_format(self, path) -> str: 
+    @staticmethod
+    def file_format(path) -> str: 
         #can check the headers first: 
         with open(path) as f:
             for line in f:
@@ -43,8 +44,8 @@ class File:
 #is hard coded now but can use the ArgParse:
 path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
-file_form = File.file_format(path)
-print(f"file format is : {file_form}")
+#file_form = File.file_format(path)
+#print(f"file format is : {file_form}")
 
 
 class FASTQ:
@@ -54,32 +55,38 @@ class FASTQ:
         self.fq = fq
     
     # get the path of the FASTQ file and assign it to be fq 
-    def FASTQ_path(self) -> str:
+    @staticmethod
+    def FASTQ_path(path) -> str:
         fq = pyfastx.Fastq(path)
         return fq
 
     #for total bases: 
-    def total_bases(self, fq) -> float:
+    @staticmethod
+    def total_bases(fq) -> float:
         total_bases = fq.size
         return total_bases
 
     #GC content of FASTQ file: 
-    def gc_content(self, fq) -> float:
+    @staticmethod
+    def gc_content(fq) -> float:
         GC_cont = fq.gc_content
         return GC_cont
 
     #composition of bases in FASTQ maybe?
-    def N_cont(self, fq) -> float:
+    @staticmethod
+    def N_cont(fq) -> float:
         comp = fq.composition
         return comp
 
     #get average length of reads (the whole file - may need to be changed):
-    def avg_len(self, fq) -> float:
+    @staticmethod
+    def avg_len(fq) -> float:
         alen = fq.avglen
         return alen
 
     #get phred score - affects the quality score conversion: 
-    def phred_score(self, fq) -> float:
+    @staticmethod
+    def phred_score(fq) -> float:
         p_score = fq.phred
         return(p_score)
     #read counts
@@ -97,7 +104,8 @@ class FASTQ_Qual:
     def id(self) -> str:
         return self._read_count 
 
-    def read_info(self, fq):
+    @staticmethod
+    def read_info(fq):
     #get info for all reads in the file: 
         for r in fq:
             read_count += 1
