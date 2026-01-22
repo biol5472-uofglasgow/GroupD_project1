@@ -3,10 +3,15 @@ import os
 
 from jinja2 import Environment
 from jinja2 import FileSystemLoader
+from parsing_files import Output
+
+
 
 
 TEMPLATE_NAME = 'sample_template.html'
 OUTPUT_FILE_NAME = 'sample_output.html'
+
+
 
 
 class HtmlGenerator(object):
@@ -30,6 +35,14 @@ class HtmlGenerator(object):
 if __name__ == '__main__':
     html_generator = HtmlGenerator(TEMPLATE_NAME)
     html_generator.generate()
+
+    for line in 
+
+    with open('results.html', 'w', encoding="utf-8") as fh:
+        fh.write(content)
+        #print(f"wrote {filename}")
+
+
 
 
 # to save the results
