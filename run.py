@@ -2,7 +2,7 @@
 # from Bio.Seq import Seq, MutableSeq
 import argparse
 import logging
-from main import main #importing our main.py file's functions
+import main #importing our main.py file's functions
 
 '''
 Setting up argparser to take in arguments at the terminal
@@ -15,4 +15,4 @@ args = parser.parse_args()
 
 #calling main function/method from main.py, using args input at terminal
 if __name__ == '__main__':
-    main(args)
+    main.main(args)
