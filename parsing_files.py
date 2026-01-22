@@ -122,12 +122,12 @@ class FASTQ_Qual:
                     q30_bases += 1
                 #now the mean qual/bases and the mean Q30/bases : 
         return read_count, read_name, read_seq, read_qual, numeric_read_qual, qual_sum, qual_bases, q30_bases 
-      
-    def mean_quality(self, qual_sum, qual_bases) -> float:
+    @staticmethod
+    def mean_quality(qual_sum, qual_bases) -> float:
         mean_qual = qual_sum / qual_bases
         return mean_qual
-    
-    def q30_frac(self, q30_bases, qual_bases) -> float:
+    @staticmethod
+    def q30_frac(q30_bases, qual_bases) -> float:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
     #print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
@@ -161,16 +161,20 @@ class FASTQ_Qual:
 class Fasta: 
     def __init__(self, fa: str) -> None:
         self.fa = fa
-    def fasta_path(self):
+
+    @staticmethod
+    def fasta_path():
         fa = pyfastx.Fasta(path)
         return fa
     
-    fasta_read_count = 0
-    def avg_len(self, fa) -> float:
+    @staticmethod
+    def avg_len(fa) -> float:
         fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
         return fasta_av_len
-
-    def read_fasta(self, fa):
+    
+    @staticmethod
+    def read_fasta(fa):
+        fasta_read_count = 0
         for s in fa: 
             fasta_read_count += 1 
             samp_id = (s.name) #seq ename
