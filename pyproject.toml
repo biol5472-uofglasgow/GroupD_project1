@@ -11,3 +11,8 @@ build-backend = "uv_build"
 [project.scripts]
 biol5472_tool_groupD="main.py:argparse_cli"
 
+## need to have typing, pytest, and pyfastx dependencies here?
+
+[tool.pytest.ini_options]
+testpaths=["tests"]
+addopts=["-q"]
