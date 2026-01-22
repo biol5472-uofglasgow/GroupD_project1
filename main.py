@@ -48,7 +48,7 @@ def main(args):
             fq = pyfastx.Fastq(full_path)
 
             print(FASTQ.avg_len(self, fq=filename))
-            print(qual_obj.mean_quality())
+            print(FASTQ_Qual.mean_quality())
 
 
 
