@@ -55,9 +55,15 @@ class FastQ_Typing(Protocol):
 
     fq = pyfastx.Fastq
     size: int
+    id: str
+    seq: str
+    gc_content: float
+    composition: float
+    avglen: float
+    phred: float
 
 
-class FASTQ:
+class FASTQ(FastQ_Typing):
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
     #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
     # total_bases: int
@@ -74,29 +80,32 @@ class FASTQ:
 
     #for total bases: 
     @staticmethod
-    def total_bases(fq: FastQ_Typing) -> int:
+    def total_bases(fq) -> int:
         total_bases = fq.size
         return total_bases
         
 
-    #GC content of FASTQ file: 
-    def gc_content(self, fq) -> float:
+    #GC content of FASTQ file:
+    @staticmethod
+    def gc_fraction(fq) -> float:
         GC_cont = fq.gc_content
         return GC_cont
 
     #composition of bases in FASTQ maybe?
-    def N_cont(self, fq) -> float:
+    @staticmethod
+    def N_cont(fq) -> float:
         comp = fq.composition
         return comp
 
     #get average length of reads (the whole file - may need to be changed):
-    # @staticmethod
-    def avg_len(self, fq) -> float:
+    @staticmethod
+    def avg_len(fq) -> float:
         alen = fq.avglen
         return alen
 
     #get phred score - affects the quality score conversion: 
-    def phred_score(self, fq) -> float:
+    @staticmethod
+    def phred_score(fq) -> float:
         p_score = fq.phred
         return(p_score)
     #read counts
@@ -107,10 +116,11 @@ class FASTQ:
     q30_bases = 0 #bases weith quality scores over 30
 
 class FASTQ_Qual:
+
     def __init__(self, id: str, seq: str, read_count) -> None:
         self._self = self
-        self.id = id
-        self.seq = seq
+        self._id = id
+        self._seq = seq
         self._read_count = read_count
 
     @property
