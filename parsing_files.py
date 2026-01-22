@@ -48,48 +48,76 @@ print(f"file format is : {file_form}")
 
 
 if file_form == "FASTQ":
+
+class FASTQ:
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
     #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
-    fq = pyfastx.Fastq(path)
+    def __init__(self, id: str, seq: str) -> None:
+        self.id = id
+        self.seq = seq
+    
+    # get the path of the FASTQ file and assign it to be fq 
+    def FASTQ_path(self) -> str:
+        fq = pyfastx.Fastq(path)
+        return fq
 
     #for total bases: 
-    total_bases = fq.size
+    def total_bases(self, fq) -> float:
+        total_bases = fq.size
+        return total_bases
 
     #GC content of FASTQ file: 
-    GC_cont = fq.gc_content
+    def gc_content(self, fq) -> float:
+        GC_cont = fq.gc_content
+        return GC_cont
 
-    #composition of bases in FASTQ
-    comp = fq.composition
+    #composition of bases in FASTQ maybe?
+    def N_cont(self, fq) -> float:
+        comp = fq.composition
+        return comp
 
-    #get average length of reads:
-    alen = fq.avglen
+    #get average length of reads (the whole file - may need to be changed):
+    def avg_len(self, fq) -> float:
+        alen = fq.avglen
+        return alen
 
     #get phred score - affects the quality score conversion: 
-    p_score = fq.phred
-
+    def phred_score(self, fq) -> float:
+        p_score = fq.phred
+        return(p_score)
     #read counts
+
     read_count = 0
     qual_sum = 0 #total sum of all the ASCII values
     qual_bases = 0 #the bases
     q30_bases = 0 #bases weith quality scores over 30
 
+class FASTQ_Qual:
+    def __init__(self, id: str, seq: str, read_count) -> None:
+        self.id = id
+        self.seq = seq
+        self._read_count = read_count
+        
+    @property
+    def id(self) -> str:
+        return self._read_count 
 
-
+    def read_info(self, fq) -> float:
     #get info for all reads in the file: 
-    for r in fq:
-        read_count += 1
-        read_name = (r.name)  #name of read
-        read_seq = (r.seq)  #read sequence
-        read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
-        numeric_read_qual = (r.quali) #numerical value of the read quality (40, 0) ect
-
-        for q in r.quali:
-            qual_sum += q   #adds the number to qual_sum
-            qual_bases += 1 #counts the bases
-            #if the quality is over 30 then add to over 30 bases: 
-            if q >= 30:
-                q30_bases += 1
-            #now the mean qual/bases and the mean Q30/bases : 
+        for r in fq:
+            read_count += 1
+            read_name = (r.name)  #name of read
+            read_seq = (r.seq)  #read sequence
+            read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
+            numeric_read_qual = (r.quali) #numerical value of the read quality (40, 0) ect
+            
+            for q in r.quali:
+                qual_sum += q   #adds the number to qual_sum
+                qual_bases += 1 #counts the bases
+                #if the quality is over 30 then add to over 30 bases: 
+                if q >= 30:
+                    q30_bases += 1
+                #now the mean qual/bases and the mean Q30/bases : 
                 
     def mean_quality() -> float:
         mean_qual = qual_sum / qual_bases
