@@ -9,7 +9,7 @@ from jinja2 import FileSystemLoader
 
 
 TEMPLATE_NAME = 'HTML_template.HTML'
-OUTPUT_FILE_NAME = 'results.html'
+OUTPUT_FILE_NAME = 'Results.html'
 
 # class from here: https://brandonjay.dev/posts/2021/write-html-in-python-with-jinja2
 class HtmlGenerator(object):
