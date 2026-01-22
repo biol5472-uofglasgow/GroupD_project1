@@ -1,6 +1,7 @@
 import pyfastx#
 import argparse
 import run
+from typing import Iterable, Iterator, Callable, Protocol
 
 class File:
     #function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
@@ -9,7 +10,7 @@ class File:
     def __init__(self, file: str) -> None:
         self._file = file
 
-    def file_format(self, path) -> str: 
+    def file_format(self, path): 
         #can check the headers first: 
         with open(path) as f:
             for line in f:
@@ -50,12 +51,21 @@ path = run.args.folder_path
 
 # if file_form == "FASTQ":
 
+class FastQ_Typing(Protocol):
+
+    fq = pyfastx.Fastq
+    size: int
+
+
 class FASTQ:
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
     #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
+    # total_bases: int
+
     def __init__(self, id: str, seq: str) -> None:
         self.id = id
         self.seq = seq
+        self._self = self
     
     # get the path of the FASTQ file and assign it to be fq 
     def FASTQ_path(self) -> str:
@@ -63,10 +73,11 @@ class FASTQ:
         return fq
 
     #for total bases: 
-    
-    def total_bases(self, fq) -> float:
+    @staticmethod
+    def total_bases(fq: FastQ_Typing) -> int:
         total_bases = fq.size
         return total_bases
+        
 
     #GC content of FASTQ file: 
     def gc_content(self, fq) -> float:
@@ -156,8 +167,8 @@ class FASTQ_Qual:
 
 
 
-#sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
-#parsing the FASTA file:
+# sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
+#  parsing the FASTA file:
 # elif file_form == "FASTA":
 # class Fasta: 
 #     def __init__(self, id: str, seq: str) -> None:
