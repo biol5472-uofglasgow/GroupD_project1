@@ -29,17 +29,20 @@ def main(args):
     folder_path = args.folder_path
     output_path = args.output_path
     fasta_filetypes = '' #making sure they are strings
-    fasta_filetypes = ('.fasta', '.fasta.gz')
+    fasta_filetypes = ('.fasta', '.fasta.gz', '.fa')
 
     fastq_filetypes = '' #making sure they are strings
     fastq_filetypes = ('.fastq', '.fastq.gz')
 
 
+    '''
+    Validating folder paths
+
+    '''
+             
     if not os.path.isdir(folder_path):
         logger.error(f'Input path {args.output_path} could not be found. Please check your input and try again\n')
         raise SystemExit(1) #validating that input folder path exists, add error checking and logging, need to make these if statements and system exit if false
-    
-    output_path = args.output_path
 
     if not os.path.isdir(output_path):#
         logger.error(f'Output path {args.output_path} could not be found. Please check your input and try again\n')
@@ -48,24 +51,20 @@ def main(args):
 
     def fasta_reader(fastafile: str):
 
-        for filename in os.listdir(folder_path):
-            if filename.endswith(fasta_filetypes):
-                try:
-                    fasta_file = pyfastx.Fasta(os.path.join(folder_path, filename))
-                    logger.info(f'{filename}') #logs the file names to the log, I made a test folder to test that this works
-                    #make error checking to verify the folder paths exists and are valid
+        try:
+            fasta_file = pyfastx.Fasta(os.path.join(folder_path, filename))
+            logger.info(f'{filename}') #logs the file names to the log, I made a test folder to test that this works
+            #make error checking to verify the folder paths exists and are valid
 
-                    #Import the class and function that parses fasta and execute here
-                    logger.info(f'The file {filename} will work')
-                    #this will be replaced with the class.function() for fasta parsing
-                    # print(FASTQ.avg_len(file))
-                except RuntimeError as e:
-                    logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
-                    break
+            #Import the class and function that parses fasta and execute here
+            logger.info(f'The file {filename} will work')
+            print(f'Fasta file {filename} will be parsed here')
+            #this will be replaced with the class.function() for fasta parsing
+            
+        except RuntimeError as e:
+            logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
+            raise SystemExit(1) # NOTE, wondering if you guys think SystemExit here is appropriate? Do we want to stop running if a file is broken? or just skip over it?
 
-            elif not filename.endswith(fasta_filetypes):
-                logger.info(f'The file {filename} could not be read by the fasta reader') #log the file name of the non fasta/fastq file
-                pass #skip over
 
     def fastq_reader(fastqfile: str):
         #     if filename.endswith(fastq_filetypes):
@@ -90,23 +89,20 @@ def main(args):
             logger.info(f'The file {fastqfile} could not be read. Error: {e}') #log the error
             pass
 
-        # if not filename.endswith(fasta_filetypes):
-        #     logger.info(f'The file {filename} could not be read by the fasta reader') #log the file name of the non fasta/fastq file
-        #     pass #skip over
 
 
     for filename in os.listdir(folder_path):
-        if filename.endswith(fasta_filetypes):
-            fasta_reader(fastafile=filename)
-            print(f'Fasta file {filename} has been parsed')
-            continue
+            if filename.endswith(fasta_filetypes):
+                fasta_reader(fastafile=filename)
+                print(f'Fasta file {filename} has been parsed')
+                continue
         
         
-        if filename.endswith(fastq_filetypes):
-            fastq_reader(fastqfile=filename)
-            print(f'Fastq file {filename} has been parsed')
-            continue
-        
+            if filename.endswith(fastq_filetypes):
+                fastq_reader(fastqfile=filename)
+                print(f'Fastq file {filename} has been parsed')
+                continue
+            
 
 
 
