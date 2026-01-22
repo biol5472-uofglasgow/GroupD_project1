@@ -1,4 +1,6 @@
-import pyfastx
+import pyfastx#
+import argparse
+import run
 
 class File:
     #function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
@@ -41,13 +43,12 @@ class File:
 
 #obvi switch this for the actual file:
 #is hard coded now but can use the ArgParse:
-path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
+path = run.args.folder_path
+# file_form = File.file_format(path)
+# print(f"file format is : {file_form}")
 
-file_form = File.file_format(path)
-print(f"file format is : {file_form}")
 
-
-if file_form == "FASTQ":
+# if file_form == "FASTQ":
 
 class FASTQ:
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
@@ -62,6 +63,7 @@ class FASTQ:
         return fq
 
     #for total bases: 
+    
     def total_bases(self, fq) -> float:
         total_bases = fq.size
         return total_bases
@@ -77,6 +79,7 @@ class FASTQ:
         return comp
 
     #get average length of reads (the whole file - may need to be changed):
+    # @staticmethod
     def avg_len(self, fq) -> float:
         alen = fq.avglen
         return alen
@@ -94,6 +97,7 @@ class FASTQ:
 
 class FASTQ_Qual:
     def __init__(self, id: str, seq: str, read_count) -> None:
+        self._self = self
         self.id = id
         self.seq = seq
         self._read_count = read_count
@@ -119,7 +123,7 @@ class FASTQ_Qual:
                     q30_bases += 1
                 #now the mean qual/bases and the mean Q30/bases : 
         return read_count, read_name, read_seq, read_qual, numeric_read_qual, qual_sum, qual_bases, q30_bases 
-      
+    # @staticmethod  
     def mean_quality(self, qual_sum, qual_bases) -> float:
         mean_qual = qual_sum / qual_bases
         return mean_qual
@@ -127,7 +131,7 @@ class FASTQ_Qual:
     def q30_frac(self, q30_bases, qual_bases) -> float:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
-    print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
+    # print(f"mean qual {self.mean_qual}, q30 fraction  {30_fraction}")
 
 
     #additional info?/stuff I found on the documentation website/adjusted for this: 
@@ -154,38 +158,38 @@ class FASTQ_Qual:
 
 #sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
 #parsing the FASTA file:
-elif file_form == "FASTA":
-class Fasta: 
-    def __init__(self, id: str, seq: str) -> None:
-        self.id = id
-        self.seq = seq.upper
-    def fasta_path(self):
-        fa = pyfastx.Fasta(path)
-        return fa
+# elif file_form == "FASTA":
+# class Fasta: 
+#     def __init__(self, id: str, seq: str) -> None:
+#         self.id = id
+#         self.seq = seq.upper
+#     def fasta_path(self):
+#         fa = pyfastx.Fasta(main.filename)
+#         return fa
     
-    fasta_read_count = 0
-    def avg_len(self, fa):
-        fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
-        return fasta_av_len
-    def read_fasta(self, fa):
-        for seq in fa: 
-            fasta_read_count += 1 
-            samp_id = (seq.name) #seq ename
-            #fasta_av_len = (seq.mean) #avg length of bases/ - might need to do count?
-            fasta_gc = (seq.gc_content) #GC fraction
-            n_count = (seq.composition) #shows composition of bases - maybe n content?
-        return fasta_read_count, samp_id, fasta_gc, n_count   
-    print(f"fasta read count {fasta_read_count}")
-    print(f"sample id {samp_id}")
-    print(f"fasta av length {fasta_av_len}")
-    print(f"fasta GC {fasta_gc}")
-    print(f"n count {n_count}")
+#     fasta_read_count = 0
+#     def avg_len(self, fa):
+#         fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
+#         return fasta_av_len
+#     def read_fasta(self, fa):
+#         for seq in fa: 
+#             fasta_read_count += 1 
+#             samp_id = (seq.name) #seq ename
+#             #fasta_av_len = (seq.mean) #avg length of bases/ - might need to do count?
+#             fasta_gc = (seq.gc_content) #GC fraction
+#             n_count = (seq.composition) #shows composition of bases - maybe n content?
+#         return fasta_read_count, samp_id, fasta_gc, n_count   
+#     print(f"fasta read count {fasta_read_count}")
+#     print(f"sample id {samp_id}")
+#     print(f"fasta av length {fasta_av_len}")
+#     print(f"fasta GC {fasta_gc}")
+#     print(f"n count {n_count}")
 
 
 
 
-else: 
-    print("incorrect file format needs to be fASTA/Q")
-    #raise ...
+# else: 
+#     print("incorrect file format needs to be fASTA/Q")
+#     #raise ...
 
-class Output:
+# class Output:
