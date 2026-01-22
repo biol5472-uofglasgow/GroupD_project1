@@ -1,5 +1,6 @@
 import logging
 import os
+from parsing_files import FASTQ, FASTQ_Qual, Fasta
 
 
 #Where it is decided whether the file is fasta or fastq and set down the appropriate pathway for parsing
@@ -35,12 +36,14 @@ def main(args):
             logger.info(f'The file {filename} could not be read') #log the file name of the non fasta/fastq file
             pass #skip over
 
-        if filename.endswith('.fasta', '.fasta.gz') == True:
+        if filename.endswith in ('.fasta', '.fasta.gz') == True:
             #Import the class and function that parses fasta and execute here
-            pass #this will be replaced with the class.function() for fasta parsing
-        if filename.endswith('.fastq', '.fastq.gz') == True:
-            pass #this will be replaced with the class.function() for fastq parsing
-
+            logger.info(f'The file {filename} will work')
+             #this will be replaced with the class.function() for fasta parsing
+        if filename.endswith in ('.fastq', '.fastq.gz') == True:
+            logger.info(f'The file {filename} will work')  #this will be replaced with the class.function() for fastq parsing
+            print(FASTQ.avg_len)
+            print(FASTQ_Qual.mean_quality)
 
 
     #put parsers in classes in another file, and then in for loop here, determine if file is fasta or fastq and execute the appropriate parser functions
