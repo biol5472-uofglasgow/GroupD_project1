@@ -97,12 +97,12 @@ class FASTQ_Qual:
         self.id = id
         self.seq = seq
         self._read_count = read_count
-        
+
     @property
     def id(self) -> str:
         return self._read_count 
 
-    def read_info(self, fq) -> float:
+    def read_info(self, fq):
     #get info for all reads in the file: 
         for r in fq:
             read_count += 1
@@ -118,12 +118,13 @@ class FASTQ_Qual:
                 if q >= 30:
                     q30_bases += 1
                 #now the mean qual/bases and the mean Q30/bases : 
-                
-    def mean_quality() -> float:
+        return read_count, read_name, read_seq, read_qual, numeric_read_qual, qual_sum, qual_bases, q30_bases 
+      
+    def mean_quality(self, qual_sum, qual_bases) -> float:
         mean_qual = qual_sum / qual_bases
         return mean_qual
     
-    def q30_frac(mean_qual) -> float:
+    def q30_frac(self, q30_bases, qual_bases) -> float:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
     print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
@@ -178,4 +179,4 @@ else:
     print("incorrect file format needs to be fASTA/Q")
     #raise ...
 
-
+class Output:
