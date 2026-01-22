@@ -1,11 +1,12 @@
 import pyfastx
 
 class File:
-#function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
-#if theres no "> or @ then will return none, need to add proper error handling into this later"
-#will return string of either "FASTA" or "FASTQ": 
+    #function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
+    #if theres no "> or @ then will return none, need to add proper error handling into this later"
+    #will return string of either "FASTA" or "FASTQ": 
     def __init__(self, file: str) -> None:
         self._file = file
+
     def file_format(self, path) -> str: 
         #can check the headers first: 
         with open(path) as f:
@@ -42,7 +43,7 @@ class File:
 #is hard coded now but can use the ArgParse:
 path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
-file_form = file_format(path)
+file_form = File.file_format(path)
 print(f"file format is : {file_form}")
 
 
@@ -50,9 +51,6 @@ if file_form == "FASTQ":
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
     #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
     fq = pyfastx.Fastq(path)
-
-    #for readcounts: 
-    RQ = len(fq)
 
     #for total bases: 
     total_bases = fq.size
@@ -66,19 +64,8 @@ if file_form == "FASTQ":
     #get average length of reads:
     alen = fq.avglen
 
-    #max and min length of reads: 
-    max_len = fq.maxlen 
-    min_len = fq.minlen 
-
-    #minimum quality score: 
-    min_qual = fq.minqual 
-
     #get phred score - affects the quality score conversion: 
     p_score = fq.phred
-
-
-    #guess fastq quality encoding system: 
-    codingsys = fq.encoding_type
 
     #read counts
     read_count = 0
@@ -103,11 +90,12 @@ if file_form == "FASTQ":
             if q >= 30:
                 q30_bases += 1
             #now the mean qual/bases and the mean Q30/bases : 
+                
     def mean_quality() -> float:
         mean_qual = qual_sum / qual_bases
         return mean_qual
     
-    def q30_frac() -> float:
+    def q30_frac(mean_qual) -> float:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
     print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
@@ -154,6 +142,9 @@ elif file_form == "FASTA":
     print(f"fasta av length {fasta_av_len}")
     print(f"fasta GC {fasta_gc}")
     print(f"n count {n_count}")
+
+
+
 
 else: 
     print("incorrect file format needs to be fASTA/Q")
