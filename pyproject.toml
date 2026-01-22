@@ -1,0 +1,18 @@
+[project]
+name = "biol5472_tool_groupD"
+version = "0.1.0"
+requires-python = ">3.9"
+dependencies = ["typer>=0.12","pandas>=2.2"]
+
+[build-system]
+requires=["uv_build"]
+build-backend = "uv_build"
+
+[project.scripts]
+biol5472_tool_groupD="main.py:argparse_cli"
+
+## need to have typing, pytest, and pyfastx dependencies here?
+
+[tool.pytest.ini_options]
+testpaths=["tests"]
+addopts=["-q"]
