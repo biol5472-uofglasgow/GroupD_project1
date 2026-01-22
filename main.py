@@ -77,7 +77,13 @@ def main(args):
             #Import the class and function that parses fasta and execute here
             logger.info(f'The file {fastqfile} will be parsed')
             #this will be replaced with the class.function() for fasta parsing
+
+            #this is where we will loop in the output write function once its ready!
             print(FASTQ.total_bases(fq))
+            print(FASTQ.gc_fraction(fq))
+            print(FASTQ.N_cont(fq))
+            print(FASTQ.avg_len(fq))
+            print(FASTQ.phred_score(fq))
 
         except RuntimeError as e:
             logger.info(f'The file {fastqfile} could not be read. Error: {e}') #log the error
