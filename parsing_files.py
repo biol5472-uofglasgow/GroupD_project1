@@ -47,8 +47,6 @@ file_form = File.file_format(path)
 print(f"file format is : {file_form}")
 
 
-if file_form == "FASTQ":
-
 class FASTQ:
     #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
     #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
@@ -127,7 +125,7 @@ class FASTQ_Qual:
     def q30_frac(self, q30_bases, qual_bases) -> float:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
-    print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
+    #print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
 
 
     #additional info?/stuff I found on the documentation website/adjusted for this: 
@@ -154,7 +152,7 @@ class FASTQ_Qual:
 
 #sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
 #parsing the FASTA file:
-elif file_form == "FASTA":
+
 class Fasta: 
     def __init__(self, id: str, seq: str) -> None:
         self.id = id
@@ -177,18 +175,11 @@ class Fasta:
             fasta_gc = (s.gc_content) #GC fraction
             n_count = (s.composition) #shows composition of bases - maybe n content?
         return fasta_read_count, samp_id, fasta_total, fasta_gc, n_count   
-    print(f"fasta read count {fasta_read_count}")
-    print(f"sample id {samp_id}")
-    print(f"fasta av length {fasta_av_len}")
-    print(f"fasta GC {fasta_gc}")
-    print(f"n count {n_count}")
-
-
-
-
-else: 
-    print("incorrect file format needs to be fASTA/Q")
-    #raise ...
+    #print(f"fasta read count {fasta_read_count}")
+    #print(f"sample id {samp_id}")
+    #print(f"fasta av length {fasta_av_len}")
+    #print(f"fasta GC {fasta_gc}")
+    #print(f"n count {n_count}")
 
 class Output:
     def __init__(self, id: str, seq: str) -> None:
@@ -196,11 +187,18 @@ class Output:
         self.seq = seq.upper
     
     def write_tsv(self):
-        open('results.tsv', 'w') as output_table:
+        with open('results.tsv', 'w') as output_table:
             output_table.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
 
-            for counter in range():
-                output_table.write(f'{samp_id}\t{fasta_read_count}\t{fasta_total}\t{fasta_av_len}\t{fasta_gc}\t{n_count}\n')
+            for counter in range(fasta_read_count):
+                output_table.write(f"{samp_id}\t{fasta_read_count}\t{fasta_total}\t{fasta_av_len}\t{fasta_gc}\t{n_count}\n")
     
 if __name__ == '__main__':
-    File = 
+        #obvi switch this for the actual file:
+    #is hard coded now but can use the ArgParse:
+    path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
+
+    file_form = File.file_format(path)
+    print(f"file format is : {file_form}")
+
+    #if file_form == "FASTQ":
