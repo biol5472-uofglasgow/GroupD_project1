@@ -164,17 +164,19 @@ class Fasta:
         return fa
     
     fasta_read_count = 0
-    def avg_len(self, fa):
+    def avg_len(self, fa) -> float:
         fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
         return fasta_av_len
+
     def read_fasta(self, fa):
-        for seq in fa: 
+        for s in fa: 
             fasta_read_count += 1 
-            samp_id = (seq.name) #seq ename
+            samp_id = (s.name) #seq ename
+            fasta_total = len(s.seq) #length of total bases
             #fasta_av_len = (seq.mean) #avg length of bases/ - might need to do count?
-            fasta_gc = (seq.gc_content) #GC fraction
-            n_count = (seq.composition) #shows composition of bases - maybe n content?
-        return fasta_read_count, samp_id, fasta_gc, n_count   
+            fasta_gc = (s.gc_content) #GC fraction
+            n_count = (s.composition) #shows composition of bases - maybe n content?
+        return fasta_read_count, samp_id, fasta_total, fasta_gc, n_count   
     print(f"fasta read count {fasta_read_count}")
     print(f"sample id {samp_id}")
     print(f"fasta av length {fasta_av_len}")
@@ -189,3 +191,16 @@ else:
     #raise ...
 
 class Output:
+    def __init__(self, id: str, seq: str) -> None:
+        self.id = id
+        self.seq = seq.upper
+    
+    def write_tsv(self):
+        open('results.tsv', 'w') as output_table:
+            output_table.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
+
+            for counter in range():
+                output_table.write(f'{samp_id}\t{fasta_read_count}\t{fasta_total}\t{fasta_av_len}\t{fasta_gc}\t{n_count}\n')
+    
+if __name__ == '__main__':
+    File = 
