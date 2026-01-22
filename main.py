@@ -84,6 +84,7 @@ def main(args):
             print(FASTQ.N_cont(fq))
             print(FASTQ.avg_len(fq))
             print(FASTQ.phred_score(fq))
+            print(FASTQ_Qual.read_info(fq))
 
         except RuntimeError as e:
             logger.info(f'The file {fastqfile} could not be read. Error: {e}') #log the error
