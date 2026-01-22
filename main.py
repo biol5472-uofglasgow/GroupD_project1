@@ -1,6 +1,7 @@
 import logging
 import os
 import pyfastx
+from parsing_files import FastQ_Typing
 
 
 
@@ -21,51 +22,86 @@ def main(args):
 
     from parsing_files import FASTQ, FASTQ_Qual
 
-    if not os.path.isdir(args.folder_path):
+    '''
+    Setting accepted filetypes and folder path variables
+
+    '''
+    folder_path = args.folder_path
+    output_path = args.output_path
+    fasta_filetypes = '' #making sure they are strings
+    fasta_filetypes = ('.fasta', '.fasta.gz')
+
+    fastq_filetypes = '' #making sure they are strings
+    fastq_filetypes = ('.fastq', '.fastq.gz')
+
+
+    if not os.path.isdir(folder_path):
         logger.error(f'Input path {args.output_path} could not be found. Please check your input and try again\n')
         raise SystemExit(1) #validating that input folder path exists, add error checking and logging, need to make these if statements and system exit if false
+    
+    output_path = args.output_path
 
-    if not os.path.isdir(args.output_path):#
+    if not os.path.isdir(output_path):#
         logger.error(f'Output path {args.output_path} could not be found. Please check your input and try again\n')
         raise SystemExit(1) #validating that output folder path exists, add error checking logging etc later
 
-    for filename in os.listdir(args.folder_path):
-        full_path = os.path.join(args.folder_path, filename) #gets all the files inside the folder specified at the CLI
-        logger.info(f'{filename}') #logs the file names to the log, I made a test folder to test that this works
-        #make error checking to verify the folder paths exists and are valid
 
-        if not filename.endswith(('.fasta', '.fastq')):
-            logger.info(f'The file {filename} could not be read') #log the file name of the non fasta/fastq file
-            continue #skip over
+    def fasta_reader(fastafile: str):
 
-        elif filename.endswith(('.fasta', '.fasta.gz')) == True:
+        for filename in os.listdir(folder_path):
+            if filename.endswith(fasta_filetypes):
+                try:
+                    fasta_file = pyfastx.Fasta(os.path.join(folder_path, filename))
+                    logger.info(f'{filename}') #logs the file names to the log, I made a test folder to test that this works
+                    #make error checking to verify the folder paths exists and are valid
+
+                    #Import the class and function that parses fasta and execute here
+                    logger.info(f'The file {filename} will work')
+                    #this will be replaced with the class.function() for fasta parsing
+                    # print(FASTQ.avg_len(file))
+                except RuntimeError as e:
+                    logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
+                    break
+
+            elif not filename.endswith(fasta_filetypes):
+                logger.info(f'The file {filename} could not be read by the fasta reader') #log the file name of the non fasta/fastq file
+                pass #skip over
+
+    def fastq_reader(fastqfile: str):
+        #     if filename.endswith(fastq_filetypes):
+        try:
+            fq = pyfastx.Fastq(os.path.join(folder_path, fastqfile))
+            logger.info(f'{fastqfile}') #logs the file names to the log, I made a test folder to test that this works
+            #make error checking to verify the folder paths exists and are valid
+
             #Import the class and function that parses fasta and execute here
-            logger.info(f'The file {filename} will work')
-             #this will be replaced with the class.function() for fasta parsing
-        elif filename.endswith(('.fastq', '.fastq.gz')):
-            logger.info(f'The file {filename} will work (FASTQ)')
+            logger.info(f'The file {fastqfile} will be parsed')
+            #this will be replaced with the class.function() for fasta parsing
+            print(FASTQ.total_bases(fq))
 
-            fq = pyfastx.Fastq(full_path)
+        except RuntimeError as e:
+            logger.info(f'The file {fastqfile} could not be read. Error: {e}') #log the error
+            pass
 
-            print(FASTQ.avg_len(self, fq=filename))
-            print(FASTQ_Qual.mean_quality())
-
-
-
-            
-             #this will be replaced with the class.function() for fastq parsing
-
-            # fastq = FASTQ(full_path)
-            # qual = FASTQ_Qual(full_path)
-
-            # print(fastq.avg_len())
-            # print(qual.mean_quality())
-            # print(FASTQ.avg_len(full_path))
-            # print(FASTQ_Qual.mean_quality(full_path))
+        # if not filename.endswith(fasta_filetypes):
+        #     logger.info(f'The file {filename} could not be read by the fasta reader') #log the file name of the non fasta/fastq file
+        #     pass #skip over
 
 
-    #put parsers in classes in another file, and then in for loop here, determine if file is fasta or fastq and execute the appropriate parser functions
-    #
+    for filename in os.listdir(folder_path):
+        if filename.endswith(fasta_filetypes):
+            fasta_reader(fastafile=filename)
+            print(f'Fasta file {filename} has been parsed')
+            continue
+        
+        
+        if filename.endswith(fastq_filetypes):
+            fastq_reader(fastqfile=filename)
+            print(f'Fastq file {filename} has been parsed')
+            continue
+        
+
+
 
  
 
