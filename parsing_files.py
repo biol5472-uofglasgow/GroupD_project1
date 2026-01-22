@@ -108,29 +108,6 @@ if file_form == "FASTQ":
     print(f"the read count is {read_count}")
 
 
-    #to get the info for the output file : mean wual and Q30: 
-    """
-    qual_sum = 0 #total sum of all the ASCII values
-    qual_bases = 0 #the bases
-    q30_bases = 0 #bases weith quality scores over 30
-    #put into the loop: 
-
-    for r in fq:
-        for q in r.quali:
-            qual_sum += q   #adds the number to qual_sum
-            qual_bases += 1 #counts the bases
-            #if the quality is over 30 then add to over 30 bases: 
-            if q >= 30:
-                q30_bases += 1
-
-    #now the mean qual/bases and the mean Q30/bases : 
-    mean_qual = qual_sum / qual_bases
-    q30_fraction = q30_bases / qual_bases
-    print(mean_qual, q30_fraction)
-    """
-
-
-
     #additional info?/stuff I found on the documentation website/adjusted for this: 
     """
     ##this could work for parsing fasta/fastq:
@@ -140,24 +117,6 @@ if file_form == "FASTQ":
     except Exception:
         fa = pyfastx.Fasta(path)
         fmt = "FASTA"
-    """
-
-
-
-    #q30????:
-    """
-    def phred_scores(qual: str) -> list[int]:
-        return [ord(ch) - 33 for ch in qual]
-
-        qual = "!!!!!!!!IIIIIIII"
-        scores = phred_scores(qual)
-
-        mean_q = sum(scores) / len(scores)
-        q30_fraction = sum(1 for q in scores if q >= 30) / len(scores)
-
-        print(scores)# [0, 40, 40]
-        print(mean_q)# 30.0
-        print(q30_fraction)# 0.75
     """
 
 
