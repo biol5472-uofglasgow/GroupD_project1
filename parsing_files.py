@@ -186,12 +186,20 @@ class Output:
     def __init__(self, data) -> None:
         self.data = data
         self.fasta_read_count = fasta_read_count
-    def write_tsv(self):
+    def FASTA_write_tsv(self):
         with open('results.tsv', 'w') as output_table:
             output_table.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
 
             for counter in range(fasta_read_count):
                 output_table.write(f"{samp_id}\t{fasta_read_count}\t{fasta_total}\t{fasta_av_len}\t{fasta_gc}\t{n_count}\n")
+
+    def FASTQ_write_tsv(meanq_data, qual30_data):
+        with open('results.tsv', 'w') as output_table:
+            output_table.write('Mean_Quality\tQuality_over_30\n')
+
+            for counter in range(fasta_read_count):
+                output_table.write(f"{meanq_data}\t{qual30_data}\n")
+    
     
 if __name__ == '__main__':
         #obvi switch this for the actual file:
@@ -204,14 +212,16 @@ if __name__ == '__main__':
     #just adding stuff on the end so that it generates a Results.tsv so that i can test the html
     #can take out if this is what is being done in main.py
     if file_form == "FASTA":
-        data = Fasta(path)
+        data = Fasta.read_fasta(path)
         out = Output(data)
-        out.write_tsv()
+        out.FASTA_write_tsv()
 
     elif file_form == "FASTQ":
         data_qual = FASTQ(path)
-        data = FASTQ_Qual(data_qual)
-        out = Output(data)
+        meanq_data = FASTQ_Qual.mean_quality(data_qual)
+        qual30_data = FASTQ_Qual.q30_frac(data_qual)
+        out = Output(meanq_data, qual30_data)
         out.write_tsv()
+
     else:
         print("incorrect file format")
