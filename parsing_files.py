@@ -22,23 +22,6 @@ class File:
                 break
 
 
-#ALSO this which uses pyfastx and can work if using the headers dont work??: 
-"""
-    try:
-        pyfastx.Fastq(path)
-        return "FASTQ"
-    except Exception:
-        pass
-
-    try:
-        pyfastx.Fasta(path)
-        return "FASTA"
-    except Exception:
-        pass
-
-    raise ValueError(f"file format must be fasta/fastq : {path}") """
-
-
 
 #obvi switch this for the actual file:
 #is hard coded now but can use the ArgParse:
@@ -132,19 +115,6 @@ class FASTQ_Qual:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
     #print(f"mean qual {mean_qual}, q30 fraction  {q30_fraction}")
-
-
-    #additional info?/stuff I found on the documentation website/adjusted for this: 
-    """
-    ##this could work for parsing fasta/fastq:
-    try:
-        fq = pyfastx.Fastq(path)
-        fmt = "FASTQ"
-    except Exception:
-        fa = pyfastx.Fasta(path)
-        fmt = "FASTA"
-    """
-
 
 
 
