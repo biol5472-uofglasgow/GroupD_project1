@@ -32,8 +32,44 @@ def test_phred_score():
     fq = FASTQ.FASTQ_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/sampleA.fastq')
     assert FASTQ.phred_score(fq) == 0
 
-def test_fastq_qual():
+def test_fastq_qual_sum():
     fqq = FASTQ_Qual()
     fq = FASTQ.FASTQ_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/sampleA.fastq')
     fqq.read_info(fq)
     assert fqq.qual_sum == 1920
+
+def test_fastq_qual_bases():
+    fqq = FASTQ_Qual()
+    fq = FASTQ.FASTQ_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/sampleA.fastq')
+    fqq.read_info(fq)
+    assert fqq.qual_bases == 48
+
+def test_fastq_qual_q30():
+    fqq = FASTQ_Qual()
+    fq = FASTQ.FASTQ_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/sampleA.fastq')
+    fqq.read_info(fq)
+    assert fqq.q30_bases == 48
+
+def test_mean_quality():
+    fqq = FASTQ_Qual()
+    fq = FASTQ.FASTQ_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/sampleA.fastq')
+    fqq.read_info(fq)
+    qsum = fqq.qual_sum
+    qbases = fqq.qual_bases
+    assert FASTQ_Qual.mean_quality(qsum, qbases) == 40.0
+
+def test_q30_frac():
+    fqq = FASTQ_Qual()
+    fq = FASTQ.FASTQ_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/sampleA.fastq')
+    fqq.read_info(fq)
+    q30 = fqq.q30_bases
+    qbases = fqq.qual_bases
+    assert FASTQ_Qual.mean_quality(q30, qbases) == 1.0
+
+def test_avg_len():
+    fa = Fasta.fasta_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/contigs.fasta')
+    assert Fasta.avg_len(fa) == 68
+
+def test_read_fasta():
+    fa = Fasta.fasta_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/contigs.fasta')
+    assert Fasta.read_fasta(fa) == 2, 'x', 23, 50, 6 
