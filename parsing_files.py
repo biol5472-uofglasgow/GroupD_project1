@@ -146,14 +146,6 @@ class FASTQ_Qual:
 
 
 
-    #for iterating: 
-    """
-    for name, seq, qual in pyfastx.Fastq('/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/sampleB.fastq', build_index=False): 
-        print(name)
-        print(seq)
-        print(qual)"""
-
-
 
 #sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
 #parsing the FASTA file:
@@ -190,7 +182,8 @@ class Fasta:
     #print(f"n count {n_count}")
 
 class Output:
-    def __init__(self) -> None:
+    def __init__(self, data) -> None:
+        self.data = data
         self.fasta_read_count = fasta_read_count
     def write_tsv(self):
         with open('results.tsv', 'w') as output_table:
@@ -207,4 +200,17 @@ if __name__ == '__main__':
     file_form = File.file_format(path)
     print(f"file format is : {file_form}")
 
-    #if file_form == "FASTQ":
+    #just adding stuff on the end so that it generates a Results.tsv so that i can test the html
+    #can take out if this is what is being done in main.py
+    if file_form == "FASTA":
+        data = Fasta(path)
+        out = Output(data)
+        out.write_tsv()
+
+    elif file_form == "FASTQ":
+        data_qual = FASTQ(path)
+        data = FASTQ_Qual(data_qual)
+        out = Output(data)
+        out.write_tsv()
+    else:
+        print("incorrect file format")
