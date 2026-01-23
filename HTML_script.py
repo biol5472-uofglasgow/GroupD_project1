@@ -11,7 +11,9 @@ from jinja2 import Environment, FileSystemLoader
 TEMPLATE_NAME = 'HTML_template.HTML'
 OUTPUT_FILE_NAME = 'Results.html'
 
-# class from here: https://brandonjay.dev/posts/2021/write-html-in-python-with-jinja2
+#class/template example from here: https://brandonjay.dev/posts/2021/write-html-in-python-with-jinja2
+#and documentation from here : https://jinja.palletsprojects.com/en/stable/api/#basics 
+#to create tables: https://www.w3schools.com/html/html_tables.asp
 class HtmlGenerator(object):
     def __init__(self, template_name: str, template_dir: str):
         self.template_name = template_name

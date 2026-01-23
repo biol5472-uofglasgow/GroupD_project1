@@ -4,11 +4,37 @@
     <title>{{title}}</title>
 </head>
 <body>
-    <div>This is the header</div>
+    <div>QC metrics Results</div>
     <div>{{ n_samples }}</div>
     <div>{{ tsv_name }}</div>
     <div>{{ columns }}</div>
     <div>{{ rows }}</div>
     <div>This is the footer</div>
+
+
+<!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
+<!-- table format? : can be used with the columns/rows
+<h2>A basic HTML table</h2>
+<table style="width:100%">
+    <tr>
+        <th>{{columns [0]}}</th>
+        <th>{{columns [1]}}</th>
+        <th>{{columns [2]}}</th>
+        <th>{{columns [3]}}</th>
+        <th>{{columns [4]}}</th>
+        <th>{{columns [5]}}</th>
+    </tr>
+    </tr>
+        <td>{{rows[0]}}</td>
+        <td>{{rows[1]}}</td>
+        <td>{{rows[2]}}</td>
+        <td>{{rows[3]}}</td>
+        <td>{{rows[4]}}</td>
+        <td>{{rows[5]}}</td>
+    </tr>
+    </tr>
+</table>
+-->
+
 </body>
 </html>
