@@ -4,12 +4,11 @@ import csv
 
 from jinja2 import Environment, FileSystemLoader
 
-from parsing_files import Output
-
+#from parsing_files import Output
 #Output.write_tsv
 
 
-TEMPLATE_NAME = 'HTML_template.html'
+TEMPLATE_NAME = 'HTML_template.HTML'
 OUTPUT_FILE_NAME = 'Results.html'
 
 # class from here: https://brandonjay.dev/posts/2021/write-html-in-python-with-jinja2
