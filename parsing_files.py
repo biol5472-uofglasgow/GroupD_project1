@@ -92,19 +92,27 @@ class FASTQ:
     #read counts
 
 class FASTQ_Qual:
-    def __init__(self, read_count: str) -> None:
-        self._read_count = read_count
+    def __init__(self) -> None:
+       ## self._read_count = read_count
+        self.qual_sum = 0
+        self.qual_bases = 0
+        self.q30_bases = 0
+        #self.read_count = 0
 
-    @property
-    def id(self) -> str:
-        return self._read_count 
-
-    @staticmethod
-    def read_info(fq):
+    def fastq_qual(self, numeric_read_qual: list[int]) -> None:
+        for q in numeric_read_qual:
+            self.qual_sum += q   #adds the number to qual_sum
+            self.qual_bases += 1 #counts the bases
+            #if the quality is over 30 then add to over 30 bases: 
+            if q >= 30:
+                self.q30_bases += 1
+            #now the mean qual/bases and the mean Q30/bases 
+    
+    def read_info(self, fq):
         read_count = 0
-        qual_sum = 0 #total sum of all the ASCII values
-        qual_bases = 0 #the bases
-        q30_bases = 0 #bases weith quality scores over 30
+        # qual_sum = 0 #total sum of all the ASCII values
+        # qual_bases = 0 #the bases
+        # q30_bases = 0 #bases weith quality scores over 30
     #get info for all reads in the file: 
         for r in fq:
             read_count += 1
@@ -113,14 +121,8 @@ class FASTQ_Qual:
             read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
             numeric_read_qual = (r.quali) #numerical value of the read quality (40, 0) ect
             
-            for q in r.quali:
-                qual_sum += q   #adds the number to qual_sum
-                qual_bases += 1 #counts the bases
-                #if the quality is over 30 then add to over 30 bases: 
-                if q >= 30:
-                    q30_bases += 1
-                #now the mean qual/bases and the mean Q30/bases : 
-        return read_count, read_name, read_seq, read_qual, numeric_read_qual, qual_sum, qual_bases, q30_bases 
+            self.fastq_qual(numeric_read_qual) 
+        return read_count, read_name, read_seq, read_qual, numeric_read_qual 
     @staticmethod
     def mean_quality(qual_sum, qual_bases) -> float:
         mean_qual = qual_sum / qual_bases
