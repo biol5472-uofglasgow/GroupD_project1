@@ -1,3 +1,5 @@
+#exact same as parsing files 1 - but output is being edited in output class
+
 import pyfastx
 path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
