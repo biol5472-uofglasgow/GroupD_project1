@@ -91,11 +91,6 @@ class FASTQ:
         return(p_score)
     #read counts
 
-    read_count = 0
-    qual_sum = 0 #total sum of all the ASCII values
-    qual_bases = 0 #the bases
-    q30_bases = 0 #bases weith quality scores over 30
-
 class FASTQ_Qual:
     def __init__(self, read_count: str) -> None:
         self._read_count = read_count
@@ -106,6 +101,10 @@ class FASTQ_Qual:
 
     @staticmethod
     def read_info(fq):
+        read_count = 0
+        qual_sum = 0 #total sum of all the ASCII values
+        qual_bases = 0 #the bases
+        q30_bases = 0 #bases weith quality scores over 30
     #get info for all reads in the file: 
         for r in fq:
             read_count += 1
