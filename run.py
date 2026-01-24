@@ -1,7 +1,6 @@
 # from Bio.Seq import SeqIO
 # from Bio.Seq import Seq, MutableSeq
 import argparse
-import logging
 import main #importing our main.py file's functions
 
 '''
