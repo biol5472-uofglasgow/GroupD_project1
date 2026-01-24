@@ -2,9 +2,9 @@ import pyfastx#
 import argparse
 import run
 import csv
-from typing import Protocol
+from typing import Protocol, Any
 
-path = run.args.folder_path
+
 
 # class FastQ_Typing(Protocol):
 
@@ -185,17 +185,18 @@ class FASTQ_Qual:
         for r in self._fq:
             yield r.name, r.seq, r.qual
 
-    @property
+    
     def read_info(self):
         read_count = 0
         qual_sum = 0 #total sum of all the ASCII values
         qual_bases = 0 #the bases
         q30_bases = 0 #bases weith quality scores over 30
-
+        read_name = ''
     #get info for all reads in the file: 
         for r in self._fq:
             read_count += 1
-            # read_name = (r.name)  #name of read
+            # read_name = r.description  #name of read left this out because its not helpful
+            
             # read_seq = (r.seq)  #read sequence
             # read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
             numeric_read_qual = (r.quali) #numerical value of the read quality (40, 0) ect
@@ -208,26 +209,57 @@ class FASTQ_Qual:
                 #if the quality is over 30 then add to over 30 bases: 
                 if q >= 30:
                     q30_bases += 1
-                    return q30_bases
+                    # return q30_bases
                     # mean_qual = qual_sum / qual_bases if qual_bases else 0
                     # q30_fraction = q30_bases /qual_bases if qual_bases else 0
                     # return mean_qual, q30_fraction
-        return {
-        #     # "reads": reads, #IF iter_reads IS USED OVER THE LIST STORAGE METHOD, REMOVE THIS LINE
-        #     # "read_count": read_count, #IF iter_reads IS USED, REMOVE THIS LINE
-            "mean_qual": qual_sum / qual_bases if qual_bases else 0,
-            "q30_fraction": q30_bases /qual_bases if qual_bases else 0,
-        }
+        return (
+            read_count,
+            qual_bases,
+            qual_sum / qual_bases if qual_bases else 0,
+            q30_bases /qual_bases if qual_bases else 0,
+        )
     '''           
     instead of returning every variable in a long string in order to use the mean_quality and q30_frac methods
     calculate the values within the read_info function, assign to new variables, and then return them.
     Can still use the returned values for writing output this way
-    # '''   
+    # '''  
+
+
+def process_fastq(full_path, output_path, filename):
+
+    fq= FASTQ(full_path)
+    fqq= FASTQ_Qual(full_path)
+    read_count, qual_bases, mean_qual, q30_fraction = fqq.read_info()
+    
+    summary_record = {
+        "filename": filename, # NOTE None of the options pyfastx gives for name or id are helpful, so using filename here
+        "total_bases": fq.total_bases,
+        "gc_fraction": fq.gc_fraction,
+        "avg_len": fq.avg_len,
+        "phred_score": fq.phred_score,
+        "A_count": fq.A_count,
+        "C_count": fq.C_count,
+        "G_count": fq.G_count,
+        "T_count": fq.T_count,
+        "N_count": fq.N_count,
+        "read_count": read_count,
+        "qual_bases": qual_bases,
+        "mean_qual": mean_qual,
+        "q30_fraction": q30_fraction,
+    }
+    records: list[dict[str, Any]]
+    records = [summary_record]
+
+
+    write_fastq_tsv(records, output_path)
+    
 
 def write_fastq_tsv(records, output_path):
     if not records:
         return # NOTE write an error cacther thing here
 
+    
     fieldnames = records[0].keys()
 
     with open(output_path, "w", newline="") as tsvfile:
