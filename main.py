@@ -1,7 +1,7 @@
 import logging
 import os
 import pyfastx
-from parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv
+from parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv, process_fastq
 from typing import Any
 
 
@@ -58,6 +58,8 @@ def main(args):
 
     for filename in os.listdir(folder_path):
         full_path = os.path.join(folder_path, filename)
+
+
         try:
             if filename.endswith(fasta_filetypes):
                 fa = FASTA(full_path)
@@ -80,31 +82,13 @@ def main(args):
                 write_fasta_tsv(records, out_file)
 
             elif filename.endswith(fastq_filetypes):
-                fq= FASTQ(full_path)
-                fqq= FASTQ_Qual(full_path)
-                
-                summary_record = {
-                    "total_bases": fq.total_bases,
-                    "gc_fraction": fq.gc_fraction,
-                    "avg_len": fq.avg_len,
-                    "phred_score": fq.phred_score,
-                    "A_count": fq.A_count,
-                    "C_count": fq.C_count,
-                    "G_count": fq.G_count,
-                    "T_count": fq.T_count,
-                    "N_count": fq.N_count,
-                    # "mean_qual": fqq.read_info["mean_qual"],
-                    # "q30_fraction": fqq.read_info["q30_fraction"],
-                }
-                records: list[dict[str, Any]]
-                records = [summary_record]
 
                 out_file = os.path.join(
                     output_path,
                     f"{os.path.splitext(filename)[0]}.tsv"
                 )
 
-                write_fastq_tsv(records, out_file)
+                process_fastq(full_path, out_file, filename)
                 
             
         except RuntimeError as e:
