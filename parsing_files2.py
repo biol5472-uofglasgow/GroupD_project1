@@ -169,7 +169,8 @@ class Output:
 
         with open('results.tsv', 'w') as output_table:
             output_table.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
-            output_table.write(f"{samp_id}\t{fasta_read_count}\t\t{fasta_total}\tt{fasta_av_len}\t\t{fasta_gc}\t\t{n_count}\n")
+            for s, t, gc, n in zip(samp_id, fasta_total, fasta_gc, n_count):
+                output_table.write(f"{s}\t\t{fasta_read_count}\t\t{t}\t\t{fasta_av_len}\t\t{gc}\t\t{n}\n")
                         
 
     def FASTQ_write_tsv(meanq_data, qual30_data):
@@ -183,7 +184,7 @@ class Output:
 if __name__ == '__main__':
         #obvi switch this for the actual file:
     #is hard coded now but can use the ArgParse:
-    path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
+    path = '/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/contigs.fasta' 
 
     file_form = File.file_format(path)
     print(f"file format is : {file_form}")
