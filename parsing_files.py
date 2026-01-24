@@ -1,161 +1,199 @@
 import pyfastx#
 import argparse
 import run
-from typing import Iterable, Iterator, Callable, Protocol
+import csv
+from typing import Protocol
 
-class File:
-    #function that will take the input file and see if it is FASTA/FASTQ based on the first line: 
-    #if theres no "> or @ then will return none, need to add proper error handling into this later"
-    #will return string of either "FASTA" or "FASTQ": 
-    def __init__(self, file: str) -> None:
-        self._file = file
-
-    def file_format(self, path): 
-        #can check the headers first: 
-        with open(path) as f:
-            for line in f:
-                line = line.strip()
-                if not line:
-                    continue
-                elif line.startswith(">"):
-                    return "FASTA"
-                elif line.startswith("@"):
-                    return "FASTQ"
-                break
-
-
-#ALSO this which uses pyfastx and can work if using the headers dont work??: 
-"""
-    try:
-        pyfastx.Fastq(path)
-        return "FASTQ"
-    except Exception:
-        pass
-
-    try:
-        pyfastx.Fasta(path)
-        return "FASTA"
-    except Exception:
-        pass
-
-    raise ValueError(f"file format must be fasta/fastq : {path}") """
-
-
-
-#obvi switch this for the actual file:
-#is hard coded now but can use the ArgParse:
 path = run.args.folder_path
-# file_form = File.file_format(path)
-# print(f"file format is : {file_form}")
+
+# class FastQ_Typing(Protocol):
+
+    # fq = pyfastx.Fastq
+    # size: int
+    # id: str
+    # seq: str
+    # gc_content: float
+    # composition: float
+    # avglen: float
+    # phred: float
+# class FASTA_Typing(Protocol):
+
+# sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, 
+# n_fraction
+    # fa = pyfastx.Fasta
+    # # id: str
+    # # seq: str
+    # # mean: float
+    # # name: str
+    # # gc_content: float
+    # # composition: #unsure about some of the typing here
+    # # samp_id: str
+    # # fasta_gc: float
+    # # n_count: int
+
+    # fasta_read_count = 0
+
+class FASTA: 
+
+    def __init__(self, path: str) -> None:
+        self._fa = pyfastx.Fasta(path)
 
 
-# if file_form == "FASTQ":
+    @property
+    def avg_len(self):
+        return self._fa.mean #avg length of bases/ - might need to do count?
 
-class FastQ_Typing(Protocol):
+    @property
+    def records(self) -> list[dict]:
+        """
+        Per-sequence records.
+        Each dict = one TSV row.
+        """
+        rows: list[dict] = []
 
-    fq = pyfastx.Fastq
-    size: int
-    id: str
-    seq: str
-    gc_content: float
-    composition: float
-    avglen: float
-    phred: float
+        for seq in self._fa:
+            comp = seq.composition
 
+            rows.append({
+                "samp_id": seq.name,
+                "length": len(seq),
+                "gc_content": seq.gc_content,
+                "A_count": comp.get("A", 0),
+                "C_count": comp.get("C", 0),
+                "G_count": comp.get("G", 0),
+                "T_count": comp.get("T", 0),
+                "N_count": comp.get("N", 0),
+            })
 
-class FASTQ(FastQ_Typing):
-    #so can do only this next bit if its a FASTQ file, will fail if its a FASTA file: 
-    #extracts info from the FASTQ file, can put this into the FATSQ_parse() function mentioned above 
-    # total_bases: int
-
-    def __init__(self, id: str, seq: str) -> None:
-        self.id = id
-        self.seq = seq
-        self._self = self
-    
-    # get the path of the FASTQ file and assign it to be fq 
-    def FASTQ_path(self) -> str:
-        fq = pyfastx.Fastq(path)
-        return fq
-
-    #for total bases: 
-    @staticmethod
-    def total_bases(fq) -> int:
-        total_bases = fq.size
-        return total_bases
-        
-
-    #GC content of FASTQ file:
-    @staticmethod
-    def gc_fraction(fq) -> float:
-        GC_cont = fq.gc_content
-        return GC_cont
-
-    #composition of bases in FASTQ maybe?
-    @staticmethod
-    def N_cont(fq) -> float:
-        comp = fq.composition
-        return comp
-
-    #get average length of reads (the whole file - may need to be changed):
-    @staticmethod
-    def avg_len(fq) -> float:
-        alen = fq.avglen
-        return alen
-
-    #get phred score - affects the quality score conversion: 
-    @staticmethod
-    def phred_score(fq) -> float:
-        p_score = fq.phred
-        return(p_score)
-    #read counts
-
-
-
-class FASTQ_Qual_Typing(Protocol):
-
-    fq = pyfastx.Fastq
-    id: str
-    seq: str
-    read_count: int
-
-    q: int
-    qual_sum: float
-    qual_bases: float
-
-    q30_bases: int
-    
+        return rows
+            
+    @property 
+    def average_len(self):
+        lengths = [len(seq) for seq in self._fa]
+        return sum(lengths) / len(lengths) if lengths else 0
     
 
-class FASTQ_Qual(FASTQ_Qual_Typing):
+    @property
+    def summary(self) -> list[dict]:
+        """
+        File-level summary (single-row TSV).
+        """
+        lengths = [len(seq) for seq in self._fa]
+
+        summary_row = {
+            "num_sequences": len(lengths),
+            "average_length": sum(lengths) / len(lengths) if lengths else 0,
+        }
+
+        return [summary_row]
+
+def write_fasta_tsv(records, output_path):
+    if not records:
+        return # NOTE write an error cacther thing here
+    
+    if not isinstance(records, list) or not records:
+        raise TypeError(
+            f"records must be a non-empty list of dicts, got {type(records)}"
+        )
+
+    if not isinstance(records[0], dict):
+        raise TypeError(
+            f"records[0] must be dict, got {type(records[0])}"
+        )
+
+    fieldnames = records[0].keys()
+
+    with open(output_path, "w", newline="") as tsvfile:
+        writer = csv.DictWriter(
+            tsvfile,
+            fieldnames=fieldnames,
+            delimiter="\t"
+        )
+
+        writer.writeheader()
+        writer.writerows(records)
 
 
-    def __init__(self, id, seq, read_count) -> None:
-        self._self = self
-        self._id = id
-        self._seq = seq
-        self._read_count = read_count
+class FASTQ:
 
-    # @property
-    # def id(self) -> str:
-    #     return self._read_count 
+    def __init__(self, path: str):
+        self._fq = pyfastx.Fastq(path)
+
+    @property
+    def total_bases(self) -> int:
+        return self._fq.size
+
+    @property
+    def gc_fraction(self) -> float:
+        return self._fq.gc_content
+    
+    @property
+    def base_composition(self) -> dict:
+        return self._fq.composition
+
+    @property
+    def A_count(self) -> int:
+        return self._fq.composition.get("A", 0)
+
+    @property
+    def C_count(self) -> int:
+        return self._fq.composition.get("C", 0)
+
+    @property
+    def G_count(self) -> int:
+        return self._fq.composition.get("G", 0)
+
+    @property
+    def T_count(self) -> int:
+        return self._fq.composition.get("T", 0)
+
+    @property
+    def N_count(self) -> int:
+        return self._fq.composition.get("N", 0)
+    
+    @property
+    def avg_len(self) -> float:
+        return self._fq.avglen
+
+    @property
+    def phred_score(self) -> float:
+        return self._fq.phred
+
+# class FASTQ_Qual_Typing(Protocol):
+#Required outputs from fastq files
+# sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, 
+# n_fraction, mean_qual, q30_fraction, run.json
+    # fq = pyfastx.Fastq
+    # id: str
+    # seq: str
+    # read_count: int
+
+    # q: int
+    # qual_sum: float
+    # qual_bases: float
+
+    # q30_bases: int
+    
+class FASTQ_Qual:
+
+
+    def __init__(self, path: str) -> None:
+        self._fq = pyfastx.Fastq(path)
 
 # a tidier way of storing these, may be preferred over the list method used in read_info, can link with output writing when needed
-    @staticmethod
-    def iter_reads(fq):
-        for r in fq:
+    def iter_reads(self):
+        for r in self._fq:
             yield r.name, r.seq, r.qual
 
-    @staticmethod
-    def read_info(fq):
+    @property
+    def read_info(self):
         read_count = 0
         qual_sum = 0 #total sum of all the ASCII values
         qual_bases = 0 #the bases
         q30_bases = 0 #bases weith quality scores over 30
 
-        reads = [] #store per read info, we will write this to the output file in order ******* NOTE, Some fastq files have samples in order and some DO NOT, how to handle this?
     #get info for all reads in the file: 
-        for r in fq:
+        for r in self._fq:
             read_count += 1
             # read_name = (r.name)  #name of read
             # read_seq = (r.seq)  #read sequence
@@ -170,85 +208,35 @@ class FASTQ_Qual(FASTQ_Qual_Typing):
                 #if the quality is over 30 then add to over 30 bases: 
                 if q >= 30:
                     q30_bases += 1
-             
+                    return q30_bases
+                    # mean_qual = qual_sum / qual_bases if qual_bases else 0
+                    # q30_fraction = q30_bases /qual_bases if qual_bases else 0
+                    # return mean_qual, q30_fraction
         return {
-            # "reads": reads, #IF iter_reads IS USED OVER THE LIST STORAGE METHOD, REMOVE THIS LINE
-            # "read_count": read_count, #IF iter_reads IS USED, REMOVE THIS LINE
+        #     # "reads": reads, #IF iter_reads IS USED OVER THE LIST STORAGE METHOD, REMOVE THIS LINE
+        #     # "read_count": read_count, #IF iter_reads IS USED, REMOVE THIS LINE
             "mean_qual": qual_sum / qual_bases if qual_bases else 0,
             "q30_fraction": q30_bases /qual_bases if qual_bases else 0,
         }
-'''           
-instead of returning every variable in a long string in order to use the mean_quality and q30_frac methods
-calculate the values within the read_info function, assign to new variables, and then return them.
-Can still use the returned values for writing output this way
-# '''   
-    # def mean_quality(qual_sum, qual_bases) -> float:
-    #     mean_qual = qual_sum / qual_bases
-    #     return mean_qual
-    
-   
-    # def q30_frac(q30_bases, qual_bases) -> float:
-    #     q30_fraction = q30_bases / qual_bases
-    #     return q30_fraction
-    # print(f"mean qual {self.mean_qual}, q30 fraction  {30_fraction}")
+    '''           
+    instead of returning every variable in a long string in order to use the mean_quality and q30_frac methods
+    calculate the values within the read_info function, assign to new variables, and then return them.
+    Can still use the returned values for writing output this way
+    # '''   
 
+def write_fastq_tsv(records, output_path):
+    if not records:
+        return # NOTE write an error cacther thing here
 
-    #additional info?/stuff I found on the documentation website/adjusted for this: 
-"""
-    ##this could work for parsing fasta/fastq:
-    try:
-        fq = pyfastx.Fastq(path)
-        fmt = "FASTQ"
-    except Exception:
-        fa = pyfastx.Fasta(path)
-        fmt = "FASTA"
-    """
+    fieldnames = records[0].keys()
 
+    with open(output_path, "w", newline="") as tsvfile:
+        writer = csv.DictWriter(
+            tsvfile,
+            fieldnames=fieldnames,
+            delimiter="\t"
+        )
 
+        writer.writeheader()
+        writer.writerows(records)
 
-    #for iterating: 
-"""
-    for name, seq, qual in pyfastx.Fastq('/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/sampleB.fastq', build_index=False): 
-        print(name)
-        print(seq)
-        print(qual)"""
-
-
-
-# sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction
-#  parsing the FASTA file:
-# elif file_form == "FASTA":
-# class Fasta: 
-#     def __init__(self, id: str, seq: str) -> None:
-#         self.id = id
-#         self.seq = seq.upper
-#     def fasta_path(self):
-#         fa = pyfastx.Fasta(main.filename)
-#         return fa
-    
-#     fasta_read_count = 0
-#     def avg_len(self, fa):
-#         fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
-#         return fasta_av_len
-#     def read_fasta(self, fa):
-#         for seq in fa: 
-#             fasta_read_count += 1 
-#             samp_id = (seq.name) #seq ename
-#             #fasta_av_len = (seq.mean) #avg length of bases/ - might need to do count?
-#             fasta_gc = (seq.gc_content) #GC fraction
-#             n_count = (seq.composition) #shows composition of bases - maybe n content?
-#         return fasta_read_count, samp_id, fasta_gc, n_count   
-#     print(f"fasta read count {fasta_read_count}")
-#     print(f"sample id {samp_id}")
-#     print(f"fasta av length {fasta_av_len}")
-#     print(f"fasta GC {fasta_gc}")
-#     print(f"n count {n_count}")
-
-
-
-
-# else: 
-#     print("incorrect file format needs to be fASTA/Q")
-#     #raise ...
-
-# class Output:
