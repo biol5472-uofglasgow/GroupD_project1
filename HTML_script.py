@@ -45,7 +45,7 @@ class HtmlGenerator(object):
         out_path = self._build_path(f"public/{OUTPUT_FILE_NAME}")
         with open(out_path, "w", encoding="utf-8") as html_file: 
             html_file.write(html)
-        print(f"results in report : {out_path}")
+        print(f"results in report found at: {out_path}")
                                
 
 

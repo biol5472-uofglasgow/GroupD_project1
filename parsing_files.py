@@ -166,9 +166,9 @@ class Output:
     def FASTA_write_tsv(fasta_read_count, samp_id, fasta_total, fasta_gc, n_count, fasta_av_len):
 
         with open('results.tsv', 'w') as output_table:
-            output_table.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
-            output_table.write(f"{samp_id}\t{fasta_read_count}\t\t{fasta_total}\tt{fasta_av_len}\t\t{fasta_gc}\t\t{n_count}\n")
-                        
+            output_table.write('Sample_ID\tNo. of seqs/reads\ttotal bases\t\tmean len\tgc fraction\t\tn fraction\n')
+            for s, t, gc, n in zip(samp_id, fasta_total, fasta_gc, n_count):
+                output_table.write(f"{s}\t\t{fasta_read_count}\t\t\t\t\t{t}\t\t\t\t{fasta_av_len}\t\t{gc}\t\t\t{n}\n")        
 
     def FASTQ_write_tsv(meanq_data, qual30_data):
         with open('results.tsv', 'w') as output_table:

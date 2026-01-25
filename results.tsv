@@ -1,2 +1,3 @@
-Sample_ID	n_seqs_of_reads	total_bases	mean_len	gc_fraction	n_fraction
-['chr1', 'chr2']	2		68.0		[50.0, 50.0]		[4, 4]
+Sample_ID	No. of seqs/reads	total bases		mean len	gc fraction		n fraction
+chr1		2					68				68.0		50.0			4
+chr2		2					68				68.0		50.0			4
