@@ -1,4 +1,6 @@
 import pyfastx
+from HTML_script import HtmlGenerator
+
 path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
 class File:
@@ -166,9 +168,9 @@ class Output:
     def FASTA_write_tsv(fasta_read_count, samp_id, fasta_total, fasta_gc, n_count, fasta_av_len):
 
         with open('results.tsv', 'w') as output_table:
-            output_table.write('Sample_ID\tNo. of seqs/reads\ttotal bases\t\tmean len\tgc fraction\t\tn fraction\n')
+            output_table.write('Sample_ID\tNo. of seqs/reads\ttotal bases\tmean len\tgc fraction\tn fraction\n')
             for s, t, gc, n in zip(samp_id, fasta_total, fasta_gc, n_count):
-                output_table.write(f"{s}\t\t{fasta_read_count}\t\t\t\t\t{t}\t\t\t\t{fasta_av_len}\t\t{gc}\t\t\t{n}\n")        
+                output_table.write(f"{s}\t{fasta_read_count}\t{t}\t{fasta_av_len}\t{gc}\t{n}\n")        
 
     def FASTQ_write_tsv(meanq_data, qual30_data):
         with open('results.tsv', 'w') as output_table:
@@ -197,9 +199,9 @@ if __name__ == '__main__':
         #out.FASTA_write_tsv()
 
     elif file_form == "FASTQ":
-        data_qual = FASTQ(path)
-        meanq_data = FASTQ_Qual.mean_quality(data_qual)
-        qual30_data = FASTQ_Qual.q30_frac(data_qual)
+        data = FASTQ(path)
+        meanq_data = FASTQ_Qual.mean_quality(data)
+        qual30_data = FASTQ_Qual.q30_frac(data)
         out = Output(meanq_data, qual30_data)
         out.write_tsv()
 

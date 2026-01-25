@@ -2,59 +2,67 @@
 <html lang="en">
 <head>
     <title>QC Results</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
 </head>
 <body>
-    <div>QC metrics Results</div>
-    <div>2</div>
-    <div>results.tsv</div>
-    <div>['Sample_ID', 'No. of seqs/reads', 'total bases', '', 'mean len', 'gc fraction', '', 'n fraction']</div>
-    <div>[{'Sample_ID': 'chr1', 'No. of seqs/reads': '', 'total bases': '2', '': '', 'mean len': '', 'gc fraction': '', 'n fraction': '68', None: ['', '', '', '68.0', '', '50.0', '', '', '4']}, {'Sample_ID': 'chr2', 'No. of seqs/reads': '', 'total bases': '2', '': '', 'mean len': '', 'gc fraction': '', 'n fraction': '68', None: ['', '', '', '68.0', '', '50.0', '', '', '4']}]</div>
-    <div>This is the footer</div>
-
 
 <!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
-<!-- table format? : can be used with the columns/rows
-<h2>A basic HTML table</h2>
+<h2>FASTA QC metrics</h2>
 <table style="width:100%">
     <tr>
-        <th>Sample_ID</th>
-        <th>No. of seqs/reads</th>
-        <th>total bases</th>
-        <th></th>
-        <th>mean len</th>
-        <th>gc fraction</th>
-    </tr>
-    </tr>
-        <td>{'Sample_ID': 'chr1', 'No. of seqs/reads': '', 'total bases': '2', '': '', 'mean len': '', 'gc fraction': '', 'n fraction': '68', None: ['', '', '', '68.0', '', '50.0', '', '', '4']}</td>
-        <td>{'Sample_ID': 'chr2', 'No. of seqs/reads': '', 'total bases': '2', '': '', 'mean len': '', 'gc fraction': '', 'n fraction': '68', None: ['', '', '', '68.0', '', '50.0', '', '', '4']}</td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-    </tr>
-    </tr>
-</table>
--->
-
-<!--for the FASTQ now: 
-
-<h2>A basic HTML table</h2>
-<table style="width:100%">
-    <tr>
-        <th>Sample_ID</th>
-        <th>No. of seqs/reads</th>
-        <th>total bases</th>
+        
+            <th>Sample_ID</th>
+        
+            <th>No. of seqs/reads</th>
+        
+            <th>total bases</th>
+        
+            <th>mean len</th>
+        
+            <th>gc fraction</th>
+        
+            <th>n fraction</th>
         
     </tr>
-    </tr>
-        <td>{'Sample_ID': 'chr1', 'No. of seqs/reads': '', 'total bases': '2', '': '', 'mean len': '', 'gc fraction': '', 'n fraction': '68', None: ['', '', '', '68.0', '', '50.0', '', '', '4']}</td>
-        <td>{'Sample_ID': 'chr2', 'No. of seqs/reads': '', 'total bases': '2', '': '', 'mean len': '', 'gc fraction': '', 'n fraction': '68', None: ['', '', '', '68.0', '', '50.0', '', '', '4']}</td>
-        <td></td>
-        
-    </tr>
-    </tr>
+    
+    
+        </tr>
+            
+                <td>chr1</td>
+            
+                <td>2</td>
+            
+                <td>68</td>
+            
+                <td>68.0</td>
+            
+                <td>50.0</td>
+            
+                <td>4</td>
+            
+        </tr>
+    
+        </tr>
+            
+                <td>chr2</td>
+            
+                <td>2</td>
+            
+                <td>68</td>
+            
+                <td>68.0</td>
+            
+                <td>50.0</td>
+            
+                <td>4</td>
+            
+        </tr>
+    
 </table>
--->
 
 </body>
 </html>
