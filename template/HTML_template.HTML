@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+    <style>
+        table, th, td {
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+<!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
+<h2> {{file_form}} QC metrics</h2>
+<table style="width:100%">
+    <tr>
+        {% for c in columns%}
+            <th>{{ c }}</th>
+        {% endfor %}
+    </tr>
+
+    {% for r in rows %}
+        <tr>
+            {% for c in columns %}
+                <td>{{ r[c] }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
