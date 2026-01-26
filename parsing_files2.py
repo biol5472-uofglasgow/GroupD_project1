@@ -161,6 +161,70 @@ class Fasta:
     #print(f"fasta GC {fasta_gc}")
     #print(f"n count {n_count}")
 
+
+
+
+
+class Output:
+    def __init__(self, data) -> None:
+        self.data = data
+        #self.fasta_read_count = fasta_read_count
+
+    def FASTA_write_tsv(fasta_read_count, samp_id, fasta_total, fasta_gc, n_count, fasta_av_len):
+        with open('results.tsv', 'w') as output_table:
+            output_table.write('Sample_ID\tseqs_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
+            for s, t, gc, n in zip(samp_id, fasta_total, fasta_gc, n_count):
+                output_table.write(f"{s}\t{fasta_read_count}\t{t}\t{fasta_av_len}\t{gc}\t{n}\n")        
+
+    def FASTQ_write_tsv(meanq_data, qual30_data):
+        with open('results.tsv', 'w') as output_table:
+            output_table.write(f'Mean_Quality\tqual_over_30\n')
+            output_table.write(f"{meanq_data}\t{qual30_data}\n")
+    
+    
+if __name__ == '__main__':
+    #obvi switch this for the actual file:
+    #is hard coded now but can use the ArgParse:
+    path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
+
+    file_form = File.file_format(path)
+    print(f"file format is : {file_form}")
+
+    #just adding stuff on the end so that it generates a Results.tsv so that i can test the html
+    #can take out if this is what is being done in main.py
+    if file_form == "FASTA":
+        fa = Fasta.fasta_path(path)
+        fasta_read_count, samp_id, fasta_total, fasta_gc, n_count = Fasta.read_fasta(fa)
+        fasta_av_len = Fasta.avg_len(fa)
+        #print(data, len_data)
+        out = Output.FASTA_write_tsv(fasta_read_count, samp_id, fasta_total, fasta_gc, n_count, fasta_av_len)
+        #out.FASTA_write_tsv()
+
+        html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+        html.generate("results.tsv", file_form)
+
+    elif file_form == "FASTQ":
+        fastq_p = FASTQ.FASTQ_path(path)
+
+        df = FASTQ_Qual()
+        read_count, read_name, read_seq, read_qual, numeric_read_qual = df.read_info(fastq_p)
+
+        meanq_data = FASTQ_Qual.mean_quality(df.qual_sum, df.qual_bases)
+        qual30_data = FASTQ_Qual.q30_frac(df.q30_bases, df.qual_bases)
+        
+        out = Output.FASTQ_write_tsv(meanq_data, qual30_data)
+        #out.write_tsv()
+
+        html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+        html.generate("results.tsv", file_form)
+
+    else:
+        print("incorrect file format")
+
+
+
+
+"""
 class Output:
     def __init__(self, data) -> None:
         self.data = data
@@ -207,4 +271,4 @@ if __name__ == '__main__':
         out.write_tsv()
 
     else:
-        print("incorrect file format")
+        print("incorrect file format")"""
