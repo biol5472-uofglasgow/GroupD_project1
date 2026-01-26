@@ -3,6 +3,7 @@ import os
 import pyfastx
 from parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv, process_fastq
 from typing import Any
+from HTML_script import HtmlGenerator
 
 
 
@@ -80,6 +81,9 @@ def main(args):
 
         
                 write_fasta_tsv(records, out_file)
+                html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+                file_form = "FASTA"
+                html.generate(filename, file_form)
 
             elif filename.endswith(fastq_filetypes):
 
@@ -89,6 +93,10 @@ def main(args):
                 )
 
                 process_fastq(full_path, out_file, filename)
+                
+                html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+                file_form = "FASTQ"
+                html.generate(filename, file_form)
                 
             
         except RuntimeError as e:
