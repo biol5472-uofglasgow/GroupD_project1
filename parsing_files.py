@@ -123,12 +123,12 @@ class Fasta:
         fa = pyfastx.Fasta(path)
         return fa
     
-
-    def avg_len(fa) -> float:
+    @property
+    def avg_len(self, fa) -> float:
         fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
         return fasta_av_len
     
-  
+    
     def read_fasta(fa):
         fasta_read_count = 0
         samp_id = []
