@@ -72,4 +72,4 @@ def test_avg_len():
 
 def test_read_fasta():
     fa = Fasta.fasta_path('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/contigs.fasta')
-    assert Fasta.read_fasta(fa) == 2, 'x', 23, 50, 6 
+    assert Fasta.read_fasta(fa) == (2, ['chr1', 'chr2'], [68, 68], [50.0, 50.0], [4, 4]) 

@@ -8,7 +8,7 @@ class File:
     #will return string of either "FASTA" or "FASTQ": 
     def __init__(self, file: str) -> None:
         self._file = file
-    @staticmethod
+
     def file_format(path) -> str: 
         #can check the headers first: 
         with open(path) as f:
@@ -31,37 +31,37 @@ class FASTQ:
         self.fq = fq
     
     # get the path of the FASTQ file and assign it to be fq 
-    @staticmethod
+
     def FASTQ_path(path) -> str:
         fq = pyfastx.Fastq(path)
         return fq
 
     #for total bases: 
-    @staticmethod
+
     def total_bases(fq) -> float:
         total_bases = fq.size
         return total_bases
 
     #GC content of FASTQ file: 
-    @staticmethod
+
     def gc_content(fq) -> float:
         GC_cont = fq.gc_content
         return GC_cont
 
     #composition of bases in FASTQ maybe?
-    @staticmethod
+
     def N_cont(fq) -> float:
         comp = fq.composition
         return comp
 
     #get average length of reads (the whole file - may need to be changed):
-    @staticmethod
+
     def avg_len(fq) -> float:
         alen = fq.avglen
         return alen
 
     #get phred score - affects the quality score conversion: 
-    @staticmethod
+
     def phred_score(fq) -> float:
         p_score = fq.phred
         return(p_score)
@@ -99,11 +99,11 @@ class FASTQ_Qual:
             
             self.fastq_qual(numeric_read_qual) 
         return read_count, read_name, read_seq, read_qual, numeric_read_qual 
-    @staticmethod
+
     def mean_quality(qual_sum, qual_bases) -> float:
         mean_qual = qual_sum / qual_bases
         return mean_qual
-    @staticmethod
+
     def q30_frac(q30_bases, qual_bases) -> float:
         q30_fraction = q30_bases / qual_bases
         return q30_fraction
@@ -118,17 +118,17 @@ class Fasta:
     def __init__(self, fa: str) -> None:
         self.fa = fa
 
-    @staticmethod
+
     def fasta_path(path):
         fa = pyfastx.Fasta(path)
         return fa
     
-    @staticmethod
+
     def avg_len(fa) -> float:
         fasta_av_len = (fa.mean) #avg length of bases/ - might need to do count?
         return fasta_av_len
     
-    @staticmethod
+  
     def read_fasta(fa):
         fasta_read_count = 0
         samp_id = []
