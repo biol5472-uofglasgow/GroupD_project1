@@ -1,7 +1,6 @@
 # from Bio.Seq import SeqIO
 # from Bio.Seq import Seq, MutableSeq
 import argparse
-import logging
 import main #importing our main.py file's functions
 
 '''
@@ -14,4 +13,5 @@ parser.add_argument('log_name', help= 'The name for the log', default='FastaFast
 args = parser.parse_args()
 
 #calling main function/method from main.py, using args input at terminal
-main.main(args)
+if __name__ == '__main__':
+    main.main(args)
