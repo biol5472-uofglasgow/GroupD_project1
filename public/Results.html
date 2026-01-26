@@ -4,29 +4,62 @@
     <title>QC Results</title>
     <style>
         table, th, td {
-            border: 1px solid black;
+            border: 1.5px solid rgb(242, 159, 206);
+            border-collapse: collapse;
         }
     </style>
 </head>
 <body>
 
 <!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
-<h2> FASTQ QC metrics</h2>
+<h2> FASTA QC metrics</h2>
 <table style="width:100%">
     <tr>
         
-            <th>Mean_Quality</th>
+            <th>Sample_ID</th>
         
-            <th>qual_over_30</th>
+            <th>seqs_reads</th>
+        
+            <th>total_bases</th>
+        
+            <th>mean_len</th>
+        
+            <th>gc_fraction</th>
+        
+            <th>n_fraction</th>
         
     </tr>
 
     
         <tr>
             
-                <td>40.0</td>
+                <td>chr1</td>
             
-                <td>1.0</td>
+                <td>2</td>
+            
+                <td>68</td>
+            
+                <td>68.0</td>
+            
+                <td>50.0</td>
+            
+                <td>4</td>
+            
+        </tr>
+    
+        <tr>
+            
+                <td>chr2</td>
+            
+                <td>2</td>
+            
+                <td>68</td>
+            
+                <td>68.0</td>
+            
+                <td>50.0</td>
+            
+                <td>4</td>
             
         </tr>
     

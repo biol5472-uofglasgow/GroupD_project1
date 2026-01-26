@@ -168,7 +168,7 @@ class Output:
 if __name__ == '__main__':
     #obvi switch this for the actual file:
     #is hard coded now but can use the ArgParse:
-    path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/sampleA.fastq' 
+    path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
     file_form = File.file_format(path)
     print(f"file format is : {file_form}")
