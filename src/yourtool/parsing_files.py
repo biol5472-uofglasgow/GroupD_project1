@@ -1,6 +1,6 @@
 import pyfastx#
 import argparse
-#import run
+import run
 import csv
 from typing import Protocol, Any
 

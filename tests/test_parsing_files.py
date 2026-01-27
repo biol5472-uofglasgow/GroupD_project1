@@ -1,5 +1,5 @@
 import pytest
-from parsing_files import FASTQ, FASTQ_Qual, FASTA
+from src.yourtool.parsing_files import FASTQ, FASTQ_Qual, FASTA
 
 ##FASTA 
 def test_avg_len():

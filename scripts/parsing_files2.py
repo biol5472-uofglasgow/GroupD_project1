@@ -1,7 +1,7 @@
 #exact same as parsing files 1 - but output is being edited in output class
 
 import pyfastx
-from HTML_script import HtmlGenerator
+from yourtool.HTML_script import HtmlGenerator
 path = '/Users/georgecollins/Desktop/PG uni/BIOL5472 SoftDev/GroupD_project1/contigs.fasta' 
 
 class File:
