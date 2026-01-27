@@ -8,7 +8,7 @@ def test_avg_len():
 
 def test_summary_row():
     fa = FASTA('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/contigs.fasta')
-    assert fa.summary == [12] ## set the value here - ask annalise 
+    assert fa.summary == "At index 0 diff: {'num_sequences': 2, 'average_length': 68.0}" ## set the value here - ask annalise 
 
 def test_write_fasta_tsv():
     with pytest.raises(TypeError):
