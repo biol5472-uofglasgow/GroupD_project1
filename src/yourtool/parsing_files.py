@@ -3,12 +3,8 @@ import argparse
 #import run
 import csv
 from typing import Protocol, Any
-<<<<<<< HEAD
-from HTML_script import HtmlGenerator
 
-=======
-from src.yourtool.HTML_script import HtmlGenerator
->>>>>>> ad0afd0ed243e96c0af9709b4971877682c2fc4c
+
 
 
 # class FastQ_Typing(Protocol):
