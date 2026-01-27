@@ -81,9 +81,10 @@ def main(args):
 
         
                 write_fasta_tsv(records, out_file)
-                #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
-                #file_form = "FASTA"
-                #html.generate(output_path, file_form) 
+
+                html = HtmlGenerator(template_name="HTML_template.html", template_dir="template") 
+                file_form = "FASTA"
+                html.generate(out_file, file_form) 
 
             elif filename.endswith(fastq_filetypes):
 
@@ -94,18 +95,18 @@ def main(args):
 
                 process_fastq(full_path, out_file, filename)
                 
-                #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
-                #file_form = "FASTQ"
-                #html.generate(output_path, file_form)
+                html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+                file_form = "FASTQ"
+                html.generate(out_file, file_form)
                 
   
         except RuntimeError as e:
             logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
             raise SystemExit(1) # NOTE, wondering if you guys think SystemExit here is appropriate? Do we want to stop running if a file is broken? or just skip over it?
 
-    html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
-    file_form = "FASTA"
-    html.generate(output_path, file_form) 
+    #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+    #file_form = "FASTA"
+    #html.generate(output_path, file_form) 
 '''
 
 NOTE to myself for tomorrow's workflow:

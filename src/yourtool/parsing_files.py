@@ -3,6 +3,7 @@ import argparse
 import run
 import csv
 from typing import Protocol, Any
+from HTML_script import HtmlGenerator
 
 
 
