@@ -62,13 +62,14 @@ run using this format:
 
 '''python3 run.py --input_folder --output_folder --log_name'''
 
-where --input_folder is the fasta/fastq files you want to test
-and --output_folder is the folder you wish to store the results in
-and --log_name is the name you wish to call the log 
+- where --input_folder is the fasta/fastq files you want to test
+- and --output_folder is the folder you wish to store the results in
+- and --log_name is the name you wish to call the log 
 
 
 ## Libraries used: 
 - pyfastx
 - jinja2
-- SeqIO
+- mypy
+- testing
 
