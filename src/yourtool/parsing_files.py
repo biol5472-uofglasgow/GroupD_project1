@@ -1,9 +1,9 @@
 import pyfastx#
 import argparse
-import run
+#import run
 import csv
 from typing import Protocol, Any
-
+from src.yourtool.HTML_script import HtmlGenerator
 
 
 # class FastQ_Typing(Protocol):
@@ -112,7 +112,9 @@ def write_fasta_tsv(records, output_path):
 
         writer.writeheader()
         writer.writerows(records)
-
+    #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
+    #file_form = "FASTA"
+    #html.generate(output_path, file_form) 
 
 class FASTQ:
 
