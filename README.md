@@ -61,11 +61,12 @@ A HTML link should be produced that contains the tables produced
 run using this format: 
 
 to set up the environment: 
-```python -m venv .venv```
+```python -m venv .venv```        
 ```source .venv/bin/activate```
 
 install the tool with: 
-```install pip -e .```
+```pip install -U pip```     
+```pip install -e .```
 
 view help and arguments:
 ```groupD_tool -h```
