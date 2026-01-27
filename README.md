@@ -60,19 +60,19 @@ A HTML link should be produced that contains the tables produced
 ## How to run
 run using this format: 
 
-to set up the environment: 
-```python -m venv .venv```        
-```source .venv/bin/activate```
+to set up the environment:       
+```python -m venv .venv```          
+```source .venv/bin/activate```   
 
-install the tool with: 
-```pip install -U pip```     
-```pip install -e .```
+install the tool with:     
+```pip install -U pip```       
+```pip install -e .```   
 
-view help and arguments:
-```groupD_tool -h```
+view help and arguments:     
+```groupD_tool -h```      
 
-run the tool: 
-```groupD_tool --input_folder --output_folder --log_name```
+run the tool:      
+```groupD_tool --input_folder --output_folder --log_name```   
 
 - where --input_folder is the fasta/fastq files you want to test
 - and --output_folder is the folder you wish to store the results in
