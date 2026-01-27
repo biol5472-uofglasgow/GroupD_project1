@@ -1,5 +1,5 @@
 [project]
-name = "biol5472_tool_groupD"
+name = "groupD_tool"
 version = "0.1.0"
 requires-python = ">3.9"
 dependencies = ["typer>=0.12", "pyfastx >= 2.3.0", "jinja2 >= 3.1.6"]
@@ -12,7 +12,7 @@ requires=["uv_build"]
 build-backend = "uv_build"
 
 [project.scripts]
-biol5472_tool_groupD="biol5472_tool_groupD.cli:" #need to add CLI function to the run.py?
+groupD_tool="groupD_tool.run:cli"
 
 
 [tool.mypy]
