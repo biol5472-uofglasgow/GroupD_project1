@@ -31,7 +31,7 @@ class HtmlGenerator(object):
         return columns, rows
 
     def generate(self, tsv_path:str, file_form:str):
-        public_folder_path = self._build_path('public')
+        public_folder_path = self._build_path('Results')
         
         if os.path.isdir(public_folder_path):
             shutil.rmtree(public_folder_path)
@@ -41,16 +41,10 @@ class HtmlGenerator(object):
         template = self.env.get_template(self.template_name)
         html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form)
 
-        out_path = self._build_path(f"public/{OUTPUT_FILE_NAME}")
+        out_path = self._build_path(f"Results/{OUTPUT_FILE_NAME}")
         with open(out_path, "w", encoding="utf-8") as html_file: 
             html_file.write(html)
         print(f"results in report found at: {out_path}")
         return out_path
 
-"""
-if __name__ == '__main__':
-    tsv_path = "results.tsv"
-    
-    html_generator = HtmlGenerator(TEMPLATE_NAME = "HTML_template.HTML", template_dir="template")
-    html_generator.generate(tsv_path)"""
 

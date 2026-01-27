@@ -83,7 +83,7 @@ def main(args):
                 write_fasta_tsv(records, out_file)
                 html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
                 file_form = "FASTA"
-                html.generate(filename, file_form)
+                html.generate(out_file, file_form)
 
             elif filename.endswith(fastq_filetypes):
 
@@ -96,7 +96,7 @@ def main(args):
                 
                 html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
                 file_form = "FASTQ"
-                html.generate(filename, file_form)
+                html.generate(out_file, file_form)
                 
             
         except RuntimeError as e:

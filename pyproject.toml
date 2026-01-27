@@ -9,7 +9,11 @@ requires=["uv_build"]
 build-backend = "uv_build"
 
 [project.scripts]
-biol5472_tool_groupD="main.py:argparse_cli"
+biol5472_tool_groupD="biol5472_tool_groupD.cli:" #need to add CLI function to the run.py?
+
+
+[tool.mypy]
+disallow_untyped_defs = true
 
 ## need to have typing, pytest, and pyfastx dependencies here?
 
