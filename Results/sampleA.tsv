@@ -1,0 +1,2 @@
+filename	total_bases	gc_fraction	avg_len	phred_score	A_count	C_count	G_count	T_count	N_count	read_count	qual_bases	mean_qual	q30_fraction
+sampleA.fastq	48	54.16666793823242	12.0	0	13	14	12	9	0	4	48	40.0	1.0
