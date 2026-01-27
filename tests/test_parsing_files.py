@@ -1,6 +1,6 @@
 import pytest
-from src.yourtool.parsing_files import FASTQ, FASTQ_Qual, FASTA
-
+from src.yourtool.parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv
+#from src.yourtool.main import main
 ##FASTA 
 def test_avg_len():
     fa = FASTA('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/contigs.fasta')
@@ -10,10 +10,13 @@ def test_summary_row():
     fa = FASTA('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/contigs.fasta')
     assert fa.summary == [{'num_sequences': 2, 'average_length': 68.0}] ## set the value here - ask annalise 
 
+def test_main_fasta():
+    with pytest.raises(RuntimeError):
+        FASTA('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/force_error_tests/false_contigs.fasta')
+       
 def test_write_fasta_tsv():
     with pytest.raises(TypeError):
-        fa=FASTA.records('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/contigs.fasta')
-
+        FASTA('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/force_error_tests/wrong_contigs.fasta')
 ### FASTQ
 def test_total_bases():
     fq = FASTQ("/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq")
@@ -56,9 +59,18 @@ def test_phred_score():
     fq = FASTQ('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq')
     assert fq.phred_score == 0
 
+def test_iter_reads():
+    fq = FASTQ_Qual('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq')
+    assert fq.iter_reads() == (name, seq, qual)
+
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq')
     assert fq.read_info() == (4, 48, 40.0, 1)
+
+def test_main_folder():
+    folder_path = ('/Users/amritatrehan/Desktop/Software_proj/GroupD_proct1/tests/force_error_tests/false_contigs.fasta')
+    with pytest.raises(SystemExit):
+        main.main(folder_path)
 """
 def test_fastq_qual_bases():
     fqq = FASTQ_Qual()
