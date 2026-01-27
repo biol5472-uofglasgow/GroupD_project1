@@ -60,7 +60,14 @@ A HTML link should be produced that contains the tables produced
 ## How to run
 run using this format: 
 
-```python3 run.py --input_folder --output_folder --log_name```
+install the tool with: 
+```install pip -e .```
+
+view help and arguments:
+```groupD_tool -h```
+
+run the tool: 
+```groupD_tool --input_folder --output_folder --log_name```
 
 - where --input_folder is the fasta/fastq files you want to test
 - and --output_folder is the folder you wish to store the results in
