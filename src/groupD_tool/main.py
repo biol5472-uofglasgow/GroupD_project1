@@ -4,6 +4,7 @@ import pyfastx
 from .parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv, process_fastq
 from typing import Any
 from .HTML_script import HtmlGenerator
+from .run_json import write_json
 
 
 
@@ -108,9 +109,11 @@ def main(args):
             logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
             raise SystemExit(1) # NOTE, wondering if you guys think SystemExit here is appropriate? Do we want to stop running if a file is broken? or just skip over it?
 
-    #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
-    #file_form = "FASTA"
-    #html.generate(output_path, file_form) 
+    json_path = write_json(folder_path = args.folder_path, output_path = args.output_path)
+    logger.info(f"json written to {json_path}")
+
+
+
 '''
 
 NOTE to myself for tomorrow's workflow:
