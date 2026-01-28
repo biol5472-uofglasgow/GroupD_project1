@@ -70,6 +70,12 @@ install the tool with:
 
 view help and arguments:     
 ```groupD_tool -h```      
+```groupD_tool --help```      
+
+To build the project:     
+```python -m pip install -U build```     
+```python -m build```     
+
 
 run the tool:      
 ```groupD_tool --input_folder --output_folder --log_name```   
@@ -77,6 +83,7 @@ run the tool:
 - where --input_folder is the fasta/fastq files you want to test
 - and --output_folder is the folder you wish to store the results in
 - and --log_name is the name you wish to call the log 
+
 
 
 ## Libraries used: 
