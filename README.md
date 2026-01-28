@@ -14,30 +14,36 @@ N-content; for FASTQ optionally mean quality score), and outputs a per-sample re
 table
 
 
-## Input files 
-### Fasta files 
+## Input files    
+
+The file(s) run from the terminal need to be in a folder to be run.    
+They can be in either FASTA or FASTQ format.      
+
+### <ins> Fasta files </ins>
 - Header line starts with '>'
 - Contains sequence data
 
 
-### Fastq file
+### <ins> Fastq file </ins>     
 Header line starts with '@'
 Sequence line
 Separator line '+', sometimes followed by sequence identifier
 
 
-## Output files 
-### tsv file 
+## Output files   
+
+Multiple files will be output into a specified folder     
+This will contain a tsv file, a run.json, and an additional folder containing HTML link(s)       
+
+### <ins> The tsv results file </ins>    
 For FASTA files a table containing one row per sample, with columns such as: 
 - sample ID
-- number of sequences or reads
-- total bases
-- mean length
+- sample length
 - gc fraction
 - A/C/T/G count
-- n fraction
+- n count       
 
-For FASTQ files a table containing one row per sample, with columns such as: 
+For FASTQ files a table containing one row per sample, with columns such as:  
 - filename
 - mean quality 
 - the fraction of bases with a quality score of over 30
@@ -48,13 +54,15 @@ For FASTQ files a table containing one row per sample, with columns such as:
 - read count
 
 
+### <ins> The run.json file </ins>     
+This should contain:    
+- the tool name and version  
+- the date and time of the run
+- input files
+- output files  
 
-
-### a run.json file: 
-This should contain pipeline/tool versions, parameters, timestamp, etc
-
-### HTML file
-A HTML link should be produced that contains the tables produced
+### <ins> The HTML folder </ins>    
+A sub-folder containing the HTML link(s) should be produced that contains tables from the TSV
 
 
 ## How to run
