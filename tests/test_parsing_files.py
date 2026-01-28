@@ -1,7 +1,12 @@
 import pytest
-from src.yourtool.parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv
+import pyfastx
+from src.groupD_tool.parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv
 
-
+def iter_reads(path):
+        for r in pyfastx.Fastq(path):
+            yield r.name, r.seq, r.qual
+for name, seq, qual in iter_reads('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq'):
+    print(name, seq, qual)
 ##FASTA 
 def test_avg_len():
     fa = FASTA('tests/contigs.fasta')
@@ -65,11 +70,11 @@ def test_fastq_avg_len():
 def test_phred_score():
     fq = FASTQ('tests/sampleA.fastq')
     assert fq.phred_score == 0
-"""
+
 def test_iter_reads():
     fq = FASTQ_Qual('tests/sampleA.fastq')
-    assert fq.iter_reads() == (name, seq, qual)
-"""
+    assert fq.iter_reads() == 'readA1 ACGTACGTACGT IIIIIIIIIIII readA2 ACGTACGTACGA IIIIIIIIIIII readA3 ACGTACGTACGG IIIIIIIIIIII readA4 ACGTACGTACCC IIIIIIIIIIII'
+
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('tests/sampleA.fastq')
     assert fq.read_info() == (4, 48, 40.0, 1)
