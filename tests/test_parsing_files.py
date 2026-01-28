@@ -27,7 +27,7 @@ def test_write_fasta_tsv():
 
 def test_write_empty_fasta_tsv():
     with pytest.raises(TypeError):
-        records = {}
+        records = [{}, {}]
         write_fasta_tsv(records)      
 ### FASTQ
 def test_total_bases():
