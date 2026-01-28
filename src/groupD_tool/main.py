@@ -71,6 +71,8 @@ def main(args):
                 #this will be replaced with the class.function() for fasta parsing
                 fa = FASTA(full_path)
                 records = fa.records
+                average_len = fa.average_len
+                read_counting =  fa.read_counting
 
                 out_file = os.path.join(
                     output_path,
@@ -81,7 +83,7 @@ def main(args):
                 # records = [record]
 
         
-                write_fasta_tsv(records, out_file)
+                write_fasta_tsv(records, out_file, average_len, read_counting)
 
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")

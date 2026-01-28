@@ -67,6 +67,15 @@ class FASTA:
             })
 
         return rows
+    
+    @property
+    def read_counting(self) -> int:
+        read_count = 0
+        total_bases = 0
+        for seq in self._fa:
+            read_count += 1
+            total_bases += len(seq.seq)
+        return read_count, total_bases
             
     @property 
     def average_len(self):
@@ -88,7 +97,7 @@ class FASTA:
 
         return [summary_row]
 
-def write_fasta_tsv(records, output_path):
+def write_fasta_tsv(records, output_path, average_len, read_counting):
     if not records:
         return # NOTE write an error cacther thing here
     
@@ -103,6 +112,8 @@ def write_fasta_tsv(records, output_path):
         )
 
     fieldnames = records[0].keys()
+    RC = read_counting[0]
+    AL = read_counting[1]
 
     with open(output_path, "w", newline="") as tsvfile:
         writer = csv.DictWriter(
@@ -113,9 +124,8 @@ def write_fasta_tsv(records, output_path):
 
         writer.writeheader()
         writer.writerows(records)
-    #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
-    #file_form = "FASTA"
-    #html.generate(output_path, file_form) 
+        tsvfile.write(f"\nread_count : {RC}\naverage_length : {average_len}\ntotal_bases : {AL}")
+    
 
 class FASTQ:
 
