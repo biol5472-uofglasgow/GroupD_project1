@@ -242,6 +242,9 @@ def process_fastq(full_path, output_path, filename):
     fq= FASTQ(full_path)
     fqq= FASTQ_Qual(full_path)
     read_count, qual_bases, mean_qual, q30_fraction = fqq.read_info()
+    mean_qual = f"{mean_qual: .2f}"
+    q30_fraction = f"{q30_fraction: .2f}"
+    #read_count, qual_bases, mean_qual, q30_fraction = fqq.read_info()
     
     summary_record = {
         "filename": filename, # NOTE None of the options pyfastx gives for name or id are helpful, so using filename here
