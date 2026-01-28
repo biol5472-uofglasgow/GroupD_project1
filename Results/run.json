@@ -1,0 +1,23 @@
+{
+    "date and time": "2026-01-28 14:26:41.452279",
+    "input file(s)": [
+        "contigs.fasta",
+        "sampleB.fastq",
+        "sampleB.fastq.fxi",
+        "force_error_tests",
+        "sampleA.fastq",
+        "test_parsing_files.py",
+        "contigs.fasta.fxi",
+        "samples.tsv",
+        "sampleA.fastq.fxi"
+    ],
+    "output file(s)": [
+        "contigs_records.tsv",
+        "sampleA.tsv",
+        "sampleB.tsv",
+        "Results_html",
+        "run.json"
+    ],
+    "tool": "groupD_tool",
+    "tool version": "0.1.0"
+}

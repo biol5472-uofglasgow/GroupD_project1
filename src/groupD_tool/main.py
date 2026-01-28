@@ -4,6 +4,7 @@ import pyfastx
 from .parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv, process_fastq
 from typing import Any
 from .HTML_script import HtmlGenerator
+from .run_json import write_json
 
 
 
@@ -70,6 +71,11 @@ def main(args):
                 #this will be replaced with the class.function() for fasta parsing
                 fa = FASTA(full_path)
                 records = fa.records
+                al = fa.avg_len
+                RC =  fa.read_counting
+                rc = RC[0]
+                tb = RC[1]
+                
 
                 out_file = os.path.join(
                     output_path,
@@ -82,11 +88,13 @@ def main(args):
         
                 write_fasta_tsv(records, out_file)
 
+                
+
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")
                 html = HtmlGenerator(template_name="HTML_template.html") 
                 file_form = "FASTA"
-                html.generate(out_file, file_form, output_path, html_name) 
+                html.generate(out_file, file_form, output_path, html_name, rc, tb, al) 
 
             elif filename.endswith(fastq_filetypes):
 
@@ -101,16 +109,18 @@ def main(args):
                 html_name = (f"{hfile}.html")
                 html = HtmlGenerator(template_name="HTML_template.html") 
                 file_form = "FASTQ"
-                html.generate(out_file, file_form, output_path, html_name)
+                html.generate(out_file, file_form, output_path, html_name, rc = 0, tb = 0, al = 0)
                 
   
         except RuntimeError as e:
             logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
             raise SystemExit(1) # NOTE, wondering if you guys think SystemExit here is appropriate? Do we want to stop running if a file is broken? or just skip over it?
 
-    #html = HtmlGenerator(template_name="HTML_template.html", template_dir="template")
-    #file_form = "FASTA"
-    #html.generate(output_path, file_form) 
+    json_path = write_json(folder_path = args.folder_path, output_path = args.output_path)
+    logger.info(f"json written to {json_path}")
+
+
+
 '''
 
 NOTE to myself for tomorrow's workflow:
