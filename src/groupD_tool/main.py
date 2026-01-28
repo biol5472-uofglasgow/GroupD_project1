@@ -85,11 +85,16 @@ def main(args):
         
                 write_fasta_tsv(records, out_file, average_len, read_counting)
 
+                al = write_fasta_tsv.average_len()
+                RC =  write_fasta_tsv.read_counting()
+                rc = RC[0]
+                tb = RC[1]
+
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")
                 html = HtmlGenerator(template_name="HTML_template.html") 
                 file_form = "FASTA"
-                html.generate(out_file, file_form, output_path, html_name) 
+                html.generate(out_file, file_form, output_path, html_name, rc, tb, al) 
 
             elif filename.endswith(fastq_filetypes):
 

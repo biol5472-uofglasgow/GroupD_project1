@@ -124,7 +124,7 @@ def write_fasta_tsv(records, output_path, average_len, read_counting):
 
         writer.writeheader()
         writer.writerows(records)
-        tsvfile.write(f"\nread_count : {RC}\naverage_length : {average_len}\ntotal_bases : {AL}")
+        #tsvfile.write(f"\nread_count : {RC}\naverage_length : {average_len}\ntotal_bases : {AL}")
     
 
 class FASTQ:
