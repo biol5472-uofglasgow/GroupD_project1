@@ -32,18 +32,38 @@ class HtmlGenerator(object):
         return columns, rows
 
     def generate(self, tsv_path:str, file_form:str, output_path: str, html_name: str, rc:int, tb:int, al:float):
-        results_dir = os.path.join(output_path, 'Results_html')
-        os.makedirs(results_dir, exist_ok=True)
+        if rc != 0:
+            results_dir = os.path.join(output_path, 'Results_html')
+            os.makedirs(results_dir, exist_ok=True)
+
+            rc = f"read count is : {rc}"
+            tb = f"total bases is : {tb}"
+            al = f"average length is : {al}"
+            
+
+            columns, rows = self.read_tsv(tsv_path)
+            template = self.env.get_template(self.template_name)
+            html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form, rc = rc, tb = tb, al = al)
+
+            out_path = os.path.join(results_dir, html_name)
+            with open(out_path, "w", encoding="utf-8") as html_file: 
+                html_file.write(html)
+            #print(f"results in report found at: {out_path}")
+            return out_path
         
+        else: 
+            results_dir = os.path.join(output_path, 'Results_html')
+            os.makedirs(results_dir, exist_ok=True)
+            
 
-        columns, rows = self.read_tsv(tsv_path)
-        template = self.env.get_template(self.template_name)
-        html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form, rc = rc, tb = tb, al = al)
+            columns, rows = self.read_tsv(tsv_path)
+            template = self.env.get_template(self.template_name)
+            html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form)
 
-        out_path = os.path.join(results_dir, html_name)
-        with open(out_path, "w", encoding="utf-8") as html_file: 
-            html_file.write(html)
-        #print(f"results in report found at: {out_path}")
-        return out_path
+            out_path = os.path.join(results_dir, html_name)
+            with open(out_path, "w", encoding="utf-8") as html_file: 
+                html_file.write(html)
+            #print(f"results in report found at: {out_path}")
+            return out_path
 
 
