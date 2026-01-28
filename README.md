@@ -1,62 +1,94 @@
-#Group D project 1
-
-Input files: 
-Fasta/Fastq file
-
-Output files: 
-tsv
-run.json
-flags.tsv
-filtered fasta
+# Group D project 1
 
 
-About Fasta Files:
-Header line, starts with '>'
-Contains sequence data
+## Collaborators 
 
-About Fastq files:
-Header line starts with '@'
-Sequence line
-Separator line '+', sometimes followed by sequence identifier
 
-Project 1 — FASTA/FASTQ QC metrics (per-sample table)
-Goal: Compute basic QC metrics per input file/sample and write a cohort table suitable 
-for a report.
+## Project 1 — FASTA/FASTQ QC metrics (per-sample table)
+
+Goal: Compute basic QC metrics per input file/sample and write a cohort table suitable for a report.
 
 Summary: Reads one or more FASTA/FASTQ files, computes basic quality control (QC)
 metrics per sample (e.g. number of sequences/reads, total bases, length stats, GC%, 
 N-content; for FASTQ optionally mean quality score), and outputs a per-sample results 
 table
 
-Inputs: FASTA and/or FASTQ files (optionally via a simple manifest samples.tsv).
-Core outputs:
 
-Required:
+## Input files 
+### Fasta files 
+- Header line starts with '>'
+- Contains sequence data
 
-• qc.tsv (one row per sample) with fields such as:
-o sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, 
-n_fraction
 
-o (FASTQ optional) mean_qual, q30_fraction
-• run.json
+### Fastq file
+Header line starts with '@'
+Sequence line
+Separator line '+', sometimes followed by sequence identifier
 
-Optional: 
 
-• flags.tsv: sample-level flags/outliers with reasons (useful for downstream 
-workflows)
+## Output files 
+### tsv file 
+For FASTA files a table containing one row per sample, with columns such as: 
+- sample ID
+- number of sequences or reads
+- total bases
+- mean length
+- gc fraction
+- A/C/T/G count
+- n fraction
 
-• (If FASTA input) filtered.fasta (or filtered_ids.txt): optional pass/fail subset output, 
-if your spec includes filtering
+For FASTQ files a table containing one row per sample, with columns such as: 
+- filename
+- mean quality 
+- the fraction of bases with a quality score of over 30
+- total bases 
+- GC fraction
+- average length 
+- phred score 
+- read count
 
-Recommended libraries (optional): biopython (SeqIO) or pyfastx for reading 
-FASTA/FASTQ reliably.
-3
 
-Tips:
 
-• Start by defining the exact columns of your qc.tsv, then write one small parser 
-that yields (id, seq, qual) records and test it on the fixtures.
 
-• Keep metrics simple and testable; focus on clean parsing and deterministic 
-aggregation.
+### a run.json file: 
+This should contain pipeline/tool versions, parameters, timestamp, etc
+
+### HTML file
+A HTML link should be produced that contains the tables produced
+
+
+## How to run
+run using this format: 
+
+to set up the environment:       
+```python -m venv .venv```          
+```source .venv/bin/activate```   
+
+install the tool with:     
+```pip install -U pip```       
+```pip install -e .```   
+
+view help and arguments:     
+```groupD_tool -h```      
+```groupD_tool --help```      
+
+To build the project:     
+```python -m pip install -U build```     
+```python -m build```     
+
+
+run the tool:      
+```groupD_tool --input_folder --output_folder --log_name```   
+
+- where --input_folder is the fasta/fastq files you want to test
+- and --output_folder is the folder you wish to store the results in
+- and --log_name is the name you wish to call the log 
+
+
+
+## Libraries used: 
+- pyfastx
+- jinja2
+- mypy
+- testing
 

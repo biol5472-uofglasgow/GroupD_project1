@@ -1,6 +1,6 @@
 [project]
-name = "biol5472_tool_groupD"
-version = "0.1.0"
+name = "groupD_tool"
+version = "0.0.2"
 requires-python = ">3.9"
 dependencies = ["typer>=0.12", "pyfastx >= 2.3.0", "jinja2 >= 3.1.6"]
 readme = 'README.md'
@@ -8,11 +8,13 @@ license = 'Apache-2.0'
 
 
 [build-system]
-requires=["uv_build"]
-build-backend = "uv_build"
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+
 
 [project.scripts]
-biol5472_tool_groupD="biol5472_tool_groupD.cli:" #need to add CLI function to the run.py?
+groupD_tool="groupD_tool.run:cli"
 
 
 [tool.mypy]

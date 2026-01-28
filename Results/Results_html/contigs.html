@@ -1,0 +1,92 @@
+<!--
+jinja documentation from here : https://jinja.palletsprojects.com/en/stable/api/#basics 
+to create tables/table design: https://www.w3schools.com/html/html_tables.asp
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>QC Results</title>
+    <style>
+        table, th, td {
+            border: 1.5px solid black;
+            border-collapse: collapse;
+        }
+        tr:nth-child(even) {
+        background-color: #f1c6f1;
+        }
+
+        tr:hover {background-color: #bcc4c4;}
+    </style>
+</head>
+<body>
+
+<!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
+<h2> FASTA QC metrics</h2>
+<table style="width:100%">
+    <tr>
+        
+            <th>samp_id</th>
+        
+            <th>length</th>
+        
+            <th>gc_content</th>
+        
+            <th>A_count</th>
+        
+            <th>C_count</th>
+        
+            <th>G_count</th>
+        
+            <th>T_count</th>
+        
+            <th>N_count</th>
+        
+    </tr>
+
+    
+        <tr>
+            
+                <td>chr1</td>
+            
+                <td>68</td>
+            
+                <td>50.0</td>
+            
+                <td>16</td>
+            
+                <td>16</td>
+            
+                <td>16</td>
+            
+                <td>16</td>
+            
+                <td>4</td>
+            
+        </tr>
+    
+        <tr>
+            
+                <td>chr2</td>
+            
+                <td>68</td>
+            
+                <td>50.0</td>
+            
+                <td>16</td>
+            
+                <td>16</td>
+            
+                <td>16</td>
+            
+                <td>16</td>
+            
+                <td>4</td>
+            
+        </tr>
+    
+</table>
+
+</body>
+</html>
