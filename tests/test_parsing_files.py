@@ -1,11 +1,12 @@
 import pytest
 import pyfastx
-from src.groupD_tool.parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv
+from groupD_tool.parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv
 
 def iter_reads(path):
         for r in pyfastx.Fastq(path):
             yield r.name, r.seq, r.qual
-for name, seq, qual in iter_reads('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq'):
+#for name, seq, qual in iter_reads('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq'): "tests/sampleA.fastq"
+for name, seq, qual in iter_reads("tests/sampleA.fastq"):      
     print(name, seq, qual)
 ##FASTA 
 def test_avg_len():
