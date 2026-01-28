@@ -71,8 +71,11 @@ def main(args):
                 #this will be replaced with the class.function() for fasta parsing
                 fa = FASTA(full_path)
                 records = fa.records
-                average_len = fa.average_len
-                read_counting =  fa.read_counting
+                al = fa.avg_len
+                RC =  fa.read_counting
+                rc = RC[0]
+                tb = RC[1]
+                
 
                 out_file = os.path.join(
                     output_path,
@@ -83,12 +86,9 @@ def main(args):
                 # records = [record]
 
         
-                write_fasta_tsv(records, out_file, average_len, read_counting)
+                write_fasta_tsv(records, out_file)
 
-                al = write_fasta_tsv.average_len()
-                RC =  write_fasta_tsv.read_counting()
-                rc = RC[0]
-                tb = RC[1]
+                
 
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")
@@ -109,7 +109,7 @@ def main(args):
                 html_name = (f"{hfile}.html")
                 html = HtmlGenerator(template_name="HTML_template.html") 
                 file_form = "FASTQ"
-                html.generate(out_file, file_form, output_path, html_name)
+                html.generate(out_file, file_form, output_path, html_name, rc = 0, tb = 0, al = 0)
                 
   
         except RuntimeError as e:

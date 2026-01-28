@@ -97,7 +97,7 @@ class FASTA:
 
         return [summary_row]
 
-def write_fasta_tsv(records, output_path, average_len, read_counting):
+def write_fasta_tsv(records, output_path):
     if not records:
         return # NOTE write an error cacther thing here
     
@@ -112,8 +112,6 @@ def write_fasta_tsv(records, output_path, average_len, read_counting):
         )
 
     fieldnames = records[0].keys()
-    RC = read_counting[0]
-    AL = read_counting[1]
 
     with open(output_path, "w", newline="") as tsvfile:
         writer = csv.DictWriter(
@@ -124,7 +122,7 @@ def write_fasta_tsv(records, output_path, average_len, read_counting):
 
         writer.writeheader()
         writer.writerows(records)
-        #tsvfile.write(f"\nread_count : {RC}\naverage_length : {average_len}\ntotal_bases : {AL}")
+        
     
 
 class FASTQ:
