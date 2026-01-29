@@ -2,12 +2,6 @@ import pytest
 import pyfastx
 from groupD_tool.parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv
 
-def iter_reads(path):
-        for r in pyfastx.Fastq(path):
-            yield r.name, r.seq, r.qual
-#for name, seq, qual in iter_reads('/Users/amritatrehan/Desktop/Software_proj/GroupD_project1/tests/sampleA.fastq'): "tests/sampleA.fastq"
-for name, seq, qual in iter_reads("tests/sampleA.fastq"):      
-    print(name, seq, qual)
 ##FASTA 
 def test_avg_len():
     fa = FASTA('tests/contigs.fasta')
@@ -24,12 +18,21 @@ def test_main_fasta():
 def test_write_fasta_tsv():
     with pytest.raises(TypeError):
         records = [2, 3]
-        write_fasta_tsv(records)
+        write_fasta_tsv(records, "out.tsv")
 
 def test_write_empty_fasta_tsv():
     with pytest.raises(TypeError):
         records = [{}, {}]
-        write_fasta_tsv(records)      
+        write_fasta_tsv(records, "out.tsv")      
+
+def test_read_counting():
+    fa = FASTA('tests/contigs.fasta')
+    assert fa.read_counting == (2, 136)
+
+def test_average_len():
+    fa = FASTA('tests/contigs.fasta')
+    assert fa.average_len == (68)
+
 ### FASTQ
 def test_total_bases():
     fq = FASTQ("tests/sampleA.fastq")
@@ -74,7 +77,8 @@ def test_phred_score():
 
 def test_iter_reads():
     fq = FASTQ_Qual('tests/sampleA.fastq')
-    assert fq.iter_reads() == 'readA1 ACGTACGTACGT IIIIIIIIIIII readA2 ACGTACGTACGA IIIIIIIIIIII readA3 ACGTACGTACGG IIIIIIIIIIII readA4 ACGTACGTACCC IIIIIIIIIIII'
+    reads = list(fq.iter_reads())
+    assert reads == [('readA1', 'ACGTACGTACGT', 'IIIIIIIIIIII'), ('readA2', 'ACGTACGTACGA', 'IIIIIIIIIIII'), ('readA3', 'ACGTACGTACGG', 'IIIIIIIIIIII'), ('readA4', 'ACGTACGTACCC', 'IIIIIIIIIIII')]
 
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('tests/sampleA.fastq')
