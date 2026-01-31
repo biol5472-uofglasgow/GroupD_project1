@@ -110,6 +110,14 @@ def write_fasta_tsv(records, output_path):
         raise TypeError(
             f"records[0] must be dict, got {type(records[0])}"
         )
+    
+    #to check if the list contains {}
+    if len(records) == 0: 
+        raise TypeError("records must be non-empty list of dicts")
+    
+    #if the dictionary inside the list has values:
+    if len(records[0]) == 0:
+        raise TypeError("records must be non-empty list of dicts")
 
     fieldnames = records[0].keys()
 
