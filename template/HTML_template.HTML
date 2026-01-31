@@ -22,12 +22,16 @@ to create tables/table design: https://www.w3schools.com/html/html_tables.asp
 </head>
 <body>
 
-<p>{{rc}} </p>
+<!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
+<h2> {{file_form}} QC metrics</h2>
+
+<p>{{rc}}</p>
 <p>{{al}}</p>
 <p>{{tb}}</p>
 
-<!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
-<h2> {{file_form}} QC metrics</h2>
+<p>Below is a table containing the QC metrics for the input file : "{{filename}}"</p>
+
+
 <table style="width:100%">
     <tr>
         {% for c in columns%}

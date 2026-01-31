@@ -113,7 +113,7 @@ def main(args):
                 html_name = (f"{hfile}.html")
                 html = HtmlGenerator(template_name="HTML_template.html") 
                 file_form = "FASTA"
-                html.generate(out_file, file_form, output_path, html_name, rc, tb, al) 
+                html.generate(out_file, file_form, output_path, html_name, filename, rc, tb, al) 
 
             elif filename.endswith(fastq_filetypes):
 
@@ -128,7 +128,7 @@ def main(args):
                 html_name = (f"{hfile}.html")
                 html = HtmlGenerator(template_name="HTML_template.html") 
                 file_form = "FASTQ"
-                html.generate(out_file, file_form, output_path, html_name, rc = 0, tb = 0, al = 0)
+                html.generate(out_file, file_form, output_path, html_name, filename, rc = 0, tb = 0, al = 0)
                 
   
         except RuntimeError as e:
