@@ -15,6 +15,15 @@ def test_main_fasta():
     with pytest.raises(RuntimeError):
         FASTA('tests/force_error_tests/false_contigs.fasta')
        
+def test_write_fasta_tsv_empty_records():
+    records = []
+    result = write_fasta_tsv(records, "out.tsv")
+    assert result is None
+
+def test_write_fasta_tsv_null():
+    records = []
+    assert write_fasta_tsv(records, "out.tsv") is None
+
 def test_write_fasta_tsv():
     with pytest.raises(TypeError):
         records = [2, 3]
@@ -23,7 +32,7 @@ def test_write_fasta_tsv():
 def test_write_empty_fasta_tsv():
     with pytest.raises(TypeError):
         records = [{}, {}]
-        write_fasta_tsv(records, "out.tsv")      
+        write_fasta_tsv(records, "out.tsv")    
 
 def test_read_counting():
     fa = FASTA('tests/contigs.fasta')
@@ -83,5 +92,9 @@ def test_iter_reads():
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('tests/sampleA.fastq')
     assert fq.read_info() == (4, 48, 40.0, 1)
+
+
+
+
 
 #assert fq.N_count == {'A':13, 'C':14, 'G':12, 'T':9, 'N': 0}

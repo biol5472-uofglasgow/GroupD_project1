@@ -31,7 +31,7 @@ class HtmlGenerator(object):
             
         return columns, rows
 
-    def generate(self, tsv_path:str, file_form:str, output_path: str, html_name: str, rc:int, tb:int, al:float):
+    def generate(self, tsv_path:str, file_form:str, output_path: str, html_name: str, filename:str, rc:int, tb:int, al:float):
         if rc != 0:
             results_dir = os.path.join(output_path, 'Results_html')
             os.makedirs(results_dir, exist_ok=True)
@@ -43,7 +43,7 @@ class HtmlGenerator(object):
 
             columns, rows = self.read_tsv(tsv_path)
             template = self.env.get_template(self.template_name)
-            html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form, rc = rc, tb = tb, al = al)
+            html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form, filename = filename, rc = rc, tb = tb, al = al)
 
             out_path = os.path.join(results_dir, html_name)
             with open(out_path, "w", encoding="utf-8") as html_file: 
@@ -58,7 +58,7 @@ class HtmlGenerator(object):
 
             columns, rows = self.read_tsv(tsv_path)
             template = self.env.get_template(self.template_name)
-            html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form)
+            html = template.render(title = "QC Results", columns=columns, rows=rows, n_samples = len(rows), tsv_name=os.path.basename(tsv_path), file_form=file_form, filename=filename)
 
             out_path = os.path.join(results_dir, html_name)
             with open(out_path, "w", encoding="utf-8") as html_file: 
