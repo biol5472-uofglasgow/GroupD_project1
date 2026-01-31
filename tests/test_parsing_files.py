@@ -14,11 +14,6 @@ def test_summary_row():
 def test_main_fasta():
     with pytest.raises(RuntimeError):
         FASTA('tests/force_error_tests/false_contigs.fasta')
-       
-def test_write_fasta_tsv_empty_records():
-    records = []
-    result = write_fasta_tsv(records, "out.tsv")
-    assert result is None
 
 def test_write_fasta_tsv_null():
     records = []
