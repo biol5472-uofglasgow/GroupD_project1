@@ -1,10 +1,29 @@
 import logging
 import os
 import pyfastx
+import json
+import datetime
 from .parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv, process_fastq
 from typing import Any
 from .HTML_script import HtmlGenerator
-from .run_json import write_json
+
+
+
+
+#tool versions, parameters, timestamps ect: 
+def write_json(folder_path:str, output_path:str):
+    j_data = {"tool": "groupD_tool", 
+                "tool version": "0.1.0", 
+                "date and time":datetime.datetime.now(),
+                "input file(s)": os.listdir(folder_path), 
+                "output file(s)": os.listdir(output_path)}
+    
+    out_path = os.path.join(output_path, "run.json")
+    with open (out_path, "w") as f: 
+        f.write(json.dumps(j_data,indent=4, sort_keys=True, default=str))
+
+    return out_path
+
 
 
 
@@ -115,6 +134,8 @@ def main(args):
         except RuntimeError as e:
             logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
             raise SystemExit(1) # NOTE, wondering if you guys think SystemExit here is appropriate? Do we want to stop running if a file is broken? or just skip over it?
+
+
 
     json_path = write_json(folder_path = args.folder_path, output_path = args.output_path)
     logger.info(f"json written to {json_path}")
