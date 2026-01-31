@@ -2,7 +2,7 @@ import pyfastx#
 import argparse
 #import run
 import csv
-from typing import Protocol, Any
+from typing import Protocol, Any, Tuple
 
 
 
@@ -69,7 +69,7 @@ class FASTA:
         return rows
     
     @property
-    def read_counting(self) -> int:
+    def read_counting(self) -> Tuple[int, int]:
         read_count = 0
         total_bases = 0
         for seq in self._fa:
