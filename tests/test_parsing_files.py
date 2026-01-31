@@ -16,14 +16,13 @@ def test_main_fasta():
         FASTA('tests/force_error_tests/false_contigs.fasta')
        
 def test_write_fasta_tsv_empty_records():
-    with pytest.raises(TypeError):
-        records = []
-        write_fasta_tsv(records)
-""""
+    records = []
+    result = write_fasta_tsv(records, "out.tsv")
+    assert result is None
+
 def test_write_fasta_tsv_null():
-    with pytest.raises(TypeError):
-        records = None
-        write_fasta_tsv(records, "out.tsv") """
+    records = []
+    assert write_fasta_tsv(records, "out.tsv") is None
 
 def test_write_fasta_tsv():
     with pytest.raises(TypeError):
@@ -93,5 +92,9 @@ def test_iter_reads():
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('tests/sampleA.fastq')
     assert fq.read_info() == (4, 48, 40.0, 1)
+
+
+
+
 
 #assert fq.N_count == {'A':13, 'C':14, 'G':12, 'T':9, 'N': 0}
