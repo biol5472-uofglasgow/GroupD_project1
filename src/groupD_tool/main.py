@@ -92,7 +92,7 @@ def main(args):
 
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")
-                html = HtmlGenerator(template_name="HTML_template.html") 
+                html = HtmlGenerator(template_name="HTML_template.HTML") 
                 file_form = "FASTA"
                 html.generate(out_file, file_form, output_path, html_name, rc, tb, al) 
 
@@ -107,7 +107,7 @@ def main(args):
                 
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")
-                html = HtmlGenerator(template_name="HTML_template.html") 
+                html = HtmlGenerator(template_name="HTML_template.HTML") 
                 file_form = "FASTQ"
                 html.generate(out_file, file_form, output_path, html_name, rc = 0, tb = 0, al = 0)
                 
