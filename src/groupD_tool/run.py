@@ -1,7 +1,5 @@
-# from Bio.Seq import SeqIO
-# from Bio.Seq import Seq, MutableSeq
 import argparse
-#import main as main #importing our main.py file's functions
+
 from . import main
 
 '''
