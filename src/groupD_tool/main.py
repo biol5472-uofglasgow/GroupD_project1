@@ -8,10 +8,8 @@ from typing import Any
 from .HTML_script import HtmlGenerator
 
 
-
-
 #tool versions, parameters, timestamps ect: 
-def write_json(folder_path:str, output_path:str):
+def write_json(folder_path:str, output_path:str) -> str:
     j_data = {"tool": "groupD_tool", 
                 "tool version": "0.1.0", 
                 "date and time":datetime.datetime.now(),
