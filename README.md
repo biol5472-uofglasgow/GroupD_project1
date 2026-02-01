@@ -1,9 +1,6 @@
 # Group D project 1
 
 
-## Collaborators 
-
-
 ## Project 1 — FASTA/FASTQ QC metrics (per-sample table)
 
 Goal: Compute basic QC metrics per input file/sample and write a cohort table suitable for a report.
@@ -86,10 +83,11 @@ To build the project:
 
 
 run the tool:      
-```groupD_tool --input_folder --output_folder --log_name```   
+```groupD_tool --input_folder --output_folder --log_name```    
+     
 
-- where --input_folder is the fasta/fastq files you want to test
-- and --output_folder is the folder you wish to store the results in
+- where --input_folder is the folder containing the fasta/fastq files you want to test
+- and --output_folder is where you wish the results to be output to
 - and --log_name is the name you wish to call the log 
 
 
