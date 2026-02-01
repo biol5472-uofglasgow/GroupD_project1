@@ -75,7 +75,7 @@ def test_phred_score():
     fq = FASTQ('tests/sampleA.fastq')
     assert fq.phred_score == 0
 
-#Im removing this one since we don't end up using iter reads, the values it stored are
+#Im removing this one since we don't end up using iter reads, the values it stored are not helpful
 
 # def test_iter_reads():
 #     fq = FASTQ_Qual('tests/sampleA.fastq')
