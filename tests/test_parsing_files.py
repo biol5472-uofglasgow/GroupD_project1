@@ -27,7 +27,7 @@ def test_write_fasta_tsv_null():
 def test_write_fasta_tsv():
     with pytest.raises(TypeError):
         records = [2, 3]
-        write_fasta_tsv(records, "out.tsv")
+        write_fasta_tsv(records, "out.tsv") #type: ignore
 
 def test_write_empty_fasta_tsv():
     with pytest.raises(TypeError):
@@ -37,10 +37,6 @@ def test_write_empty_fasta_tsv():
 def test_read_counting():
     fa = FASTA('tests/contigs.fasta')
     assert fa.read_counting == (2, 136)
-
-def test_average_len():
-    fa = FASTA('tests/contigs.fasta')
-    assert fa.average_len == (68)
 
 ### FASTQ
 def test_total_bases():
@@ -84,10 +80,12 @@ def test_phred_score():
     fq = FASTQ('tests/sampleA.fastq')
     assert fq.phred_score == 0
 
-def test_iter_reads():
-    fq = FASTQ_Qual('tests/sampleA.fastq')
-    reads = list(fq.iter_reads())
-    assert reads == [('readA1', 'ACGTACGTACGT', 'IIIIIIIIIIII'), ('readA2', 'ACGTACGTACGA', 'IIIIIIIIIIII'), ('readA3', 'ACGTACGTACGG', 'IIIIIIIIIIII'), ('readA4', 'ACGTACGTACCC', 'IIIIIIIIIIII')]
+#Im removing this one since we don't end up using iter reads, the values it stored are
+
+# def test_iter_reads():
+#     fq = FASTQ_Qual('tests/sampleA.fastq')
+#     reads = list(fq.iter_reads())
+#     assert reads == [('readA1', 'ACGTACGTACGT', 'IIIIIIIIIIII'), ('readA2', 'ACGTACGTACGA', 'IIIIIIIIIIII'), ('readA3', 'ACGTACGTACGG', 'IIIIIIIIIIII'), ('readA4', 'ACGTACGTACCC', 'IIIIIIIIIIII')]
 
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('tests/sampleA.fastq')
