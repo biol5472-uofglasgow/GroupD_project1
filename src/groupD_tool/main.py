@@ -25,8 +25,6 @@ def write_json(folder_path:str, output_path:str):
     return out_path
 
 
-
-
 def main(args):
 
     '''
@@ -84,17 +82,11 @@ def main(args):
         try:
             if filename.endswith(fasta_filetypes):
                 fa = FASTA(full_path)
-                logger.info(f'{filename}') #logs the file names to the log, I made a test folder to test that this works
-                #make error checking to verify the folder paths exists and are valid
-                logger.info(f'The file {filename} will work')
-                #this will be replaced with the class.function() for fasta parsing
-                fa = FASTA(full_path)
+                logger.info(f'Parsing file: {filename}')
                 records = fa.records
                 al = fa.avg_len
-                RC =  fa.read_counting
-                rc = RC[0]
-                tb = RC[1]
-                
+                rc, tb =  fa.read_counting
+              
 
                 out_file = os.path.join(
                     output_path,
@@ -102,10 +94,10 @@ def main(args):
                 )
 
                 records: list[dict[str, Any]]
-                # records = [record]
 
         
                 write_fasta_tsv(records, out_file)
+                logger.info(f'Output written to {out_file}')
 
                 
 
@@ -123,6 +115,7 @@ def main(args):
                )
 
                 process_fastq(full_path, out_file, filename)
+                logger.info(f'Output written to {out_file}')
                 
                 hfile = os.path.splitext(filename)[0]
                 html_name = (f"{hfile}.html")
@@ -140,66 +133,4 @@ def main(args):
     json_path = write_json(folder_path = args.folder_path, output_path = args.output_path)
     logger.info(f"json written to {json_path}")
 
-
-
-'''
-
-NOTE to myself for tomorrow's workflow:
-
-Each file does output information now, but missing some columns, check on columns for each output.
-Loop mean_qual and q30_fraction in to fastq output and make sure it's as expected
-'''
-#         def fastq_reader(filename: str):
-#             #     if filename.endswith(fastq_filetypes):
-#             try:
-#                 fa = pyfastx.Fastq(os.path.join(folder_path, filename))
-#                 logger.info(f'{fq}') #logs the file names to the log, I made a test folder to test that this works
-#                 #make error checking to verify the folder paths exists and are valid
-
-#                 #Import the class and function that parses fasta and execute here
-#                 logger.info(f'The file {fq} will be parsed')
-#                 #this will be replaced with the class.function() for fasta parsing
-
-#                 #this is where we will loop in the output write function once its ready!
-#                 print(fq.total_bases())
-#                 print(fq.gc_fraction())
-#                 print(fq.N_cont())
-#                 print(fq.avg_len())
-#                 print(fq.phred_score())
-#                 print(fq.read_info())
-
-#             except RuntimeError as e:
-#                 logger.info(f'The file {fq} could not be read. Error: {e}') #log the error
-#                 pass
-
-
-
-# for filename in os.listdir(folder_path):
-#     if filename.endswith(fasta_filetypes):
-#         fa = pyfastx.Fasta(os.path.join(folder_path, filename))
-#         with open(f'{filename}_output.tsv') as output:
-#             #name of new file, how to grab the name of the original file
-#             output.write(fasta_reader(fa))
-#             print(f'Fasta file {fa} has been parsed')
-#             continue
-
-
-#     if filename.endswith(fastq_filetypes):
-#         fq = pyfastx.Fastq(os.path.join(folder_path, filename))
-#         fastq_reader(fq)
-#         print(f'Fastq file {filename} has been parsed')
-#         continue
-
-           
-    # def FASTA_write_tsv(self, fasta_read_count, samp_id, fasta_total, fasta_gc, n_count, fasta_av_len):
-    #         fa = pyfastx.Fastq(os.path.join(folder_path, filename))
-    #         with open(f'{filename}_output.tsv') as output:
-    #             output.write('Sample_ID\tn_seqs_of_reads\ttotal_bases\tmean_len\tgc_fraction\tn_fraction\n')
-    #             output.write(f"{samp_id}\t{fasta_read_count}\t\t{fasta_total}\tt{fasta_av_len}\t\t{fasta_gc}\t\t{n_count}\n")
-                            
-
-    # def FASTQ_write_tsv(self, meanq_data, qual30_data):
-    #     with open('results.tsv', 'w') as output_table:
-    #         output_table.write(f'Mean_Quality\tqual_over_30\n')
-    #     #Output mean_qual and qual over 30
 
