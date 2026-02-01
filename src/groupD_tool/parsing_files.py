@@ -6,33 +6,6 @@ from typing import Protocol, Any, Tuple
 
 
 
-# class FastQ_Typing(Protocol):
-
-    # fq = pyfastx.Fastq
-    # size: int
-    # id: str
-    # seq: str
-    # gc_content: float
-    # composition: float
-    # avglen: float
-    # phred: float
-# class FASTA_Typing(Protocol):
-
-# sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, 
-# n_fraction
-    # fa = pyfastx.Fasta
-    # # id: str
-    # # seq: str
-    # # mean: float
-    # # name: str
-    # # gc_content: float
-    # # composition: #unsure about some of the typing here
-    # # samp_id: str
-    # # fasta_gc: float
-    # # n_count: int
-
-    # fasta_read_count = 0
-
 class FASTA: 
 
     def __init__(self, path: str) -> None:
@@ -40,8 +13,12 @@ class FASTA:
 
 
     @property
-    def avg_len(self):
-        return self._fa.mean #avg length of bases/ - might need to do count?
+    def avg_len(self) -> float:
+        return self._fa.mean #avg length of bases
+    
+    @property 
+    def median_len(self) -> float:
+        return self._fa.median
 
     @property
     def records(self) -> list[dict]:
@@ -75,11 +52,6 @@ class FASTA:
             read_count += 1
             total_bases += len(seq.seq)
         return read_count, total_bases
-            
-    @property 
-    def average_len(self):
-        lengths = [len(seq) for seq in self._fa]
-        return sum(lengths) / len(lengths) if lengths else 0
     
 
     @property
@@ -96,7 +68,7 @@ class FASTA:
 
         return [summary_row]
 
-def write_fasta_tsv(records, output_path):
+def write_fasta_tsv(records: list[dict], output_path: str):
     if not records:
         return # NOTE write an error cacther thing here
     
@@ -177,34 +149,15 @@ class FASTQ:
     def phred_score(self) -> float:
         return self._fq.phred
 
-# class FASTQ_Qual_Typing(Protocol):
-#Required outputs from fastq files
-# sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, 
-# n_fraction, mean_qual, q30_fraction, run.json
-    # fq = pyfastx.Fastq
-    # id: str
-    # seq: str
-    # read_count: int
 
-    # q: int
-    # qual_sum: float
-    # qual_bases: float
-
-    # q30_bases: int
-    
 class FASTQ_Qual:
 
 
     def __init__(self, path: str) -> None:
         self._fq = pyfastx.Fastq(path)
 
-# a tidier way of storing these, may be preferred over the list method used in read_info, can link with output writing when needed
-    def iter_reads(self):
-        for r in self._fq:
-            yield r.name, r.seq, r.qual
-
     
-    def read_info(self):
+    def read_info(self) -> tuple[int, int, float, float]:
         read_count = 0
         qual_sum = 0 #total sum of all the ASCII values
         qual_bases = 0 #the bases
@@ -213,38 +166,22 @@ class FASTQ_Qual:
     #get info for all reads in the file: 
         for r in self._fq:
             read_count += 1
-            # read_name = r.description  #name of read left this out because its not helpful
-            
-            # read_seq = (r.seq)  #read sequence
-            # read_qual = (r.qual)  # read quality (IIIII!!!!!) ect
             numeric_read_qual = (r.quali) #numerical value of the read quality (40, 0) ect
-            
-            # reads.append((read_name, read_seq, read_qual)) #adding the read info variables for each read to the list remove this if going with def method
-
             for q in numeric_read_qual:
                 qual_sum += q   #adds the number to qual_sum
                 qual_bases += 1 #counts the bases
                 #if the quality is over 30 then add to over 30 bases: 
                 if q >= 30:
                     q30_bases += 1
-                    # return q30_bases
-                    # mean_qual = qual_sum / qual_bases if qual_bases else 0
-                    # q30_fraction = q30_bases /qual_bases if qual_bases else 0
-                    # return mean_qual, q30_fraction
         return (
             read_count,
             qual_bases,
             qual_sum / qual_bases if qual_bases else 0,
             q30_bases /qual_bases if qual_bases else 0,
         )
-    '''           
-    instead of returning every variable in a long string in order to use the mean_quality and q30_frac methods
-    calculate the values within the read_info function, assign to new variables, and then return them.
-    Can still use the returned values for writing output this way
-    # '''  
 
 
-def process_fastq(full_path, output_path, filename):
+def process_fastq(full_path: str, output_path: str, filename: str):
 
     fq= FASTQ(full_path)
     fqq= FASTQ_Qual(full_path)
@@ -265,7 +202,7 @@ def process_fastq(full_path, output_path, filename):
         "T_count": fq.T_count,
         "N_count": fq.N_count,
         "read_count": read_count,
-        "qual_bases": qual_bases,
+        "bases_qual>30": qual_bases,
         "mean_qual": mean_qual,
         "q30_fraction": q30_fraction,
     }
@@ -276,7 +213,7 @@ def process_fastq(full_path, output_path, filename):
     write_fastq_tsv(records, output_path)
     
 
-def write_fastq_tsv(records, output_path):
+def write_fastq_tsv(records: list[dict], output_path: str):
     if not records:
         return # NOTE write an error cacther thing here
 
