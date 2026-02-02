@@ -66,9 +66,18 @@ A sub-folder containing the HTML link(s) should be produced that contains tables
 run using this format: 
 
 set up a virtual environment in python:       
-```python -m venv .venv```            
-```source .venv/bin/activate```  
-```pip install -U pip ```    
+```
+python -m venv .venv
+```            
+
+```
+source .venv/bin/activate
+```  
+
+```
+pip install -U pip
+```    
+
 
 install the tool with:      
 ```
@@ -76,16 +85,29 @@ pip install -i https://test.pypi.org/simple/ groupD-tool
 ```   
 
 view help and arguments:     
-```groupD_tool -h```      
-```groupD_tool --help```      
+```
+groupD_tool -h
+```      
+
+```
+groupD_tool --help
+```      
+
 
 To build the project:     
-```python -m pip install -U build```     
-```python -m build```     
+```
+python -m pip install -U build
+```     
+
+```
+python -m build
+```     
 
 
 run the tool:      
-```groupD_tool --input_folder --output_folder --log_name```    
+```
+groupD_tool --input_folder --output_folder --log_name
+```    
      
 
 - where --input_folder is the folder containing the fasta/fastq files you want to test
@@ -94,7 +116,9 @@ run the tool:
 
 
 For example: 
-```groupD_tool /path/to/samples_folder /path/to/Results/ log```      
+```
+groupD_tool /path/to/samples_folder /path/to/Results/ log
+```      
 
 
 
