@@ -11,7 +11,7 @@ OUTPUT_FILE_NAME = 'Results.html'
 TEMPLATE_NAME = 'HTML_template.HTML'
 
 
-#class/template example from here: https://brandonjay.dev/posts/2021/write-html-in-python-with-jinja2
+#class/jinja2 example from here: https://brandonjay.dev/posts/2021/write-html-in-python-with-jinja2
 
 
 class HtmlGenerator(object):
@@ -30,6 +30,12 @@ class HtmlGenerator(object):
             columns = reader.fieldnames or []
             
         return columns, rows
+
+
+    #function will insert the read count/total bases/average length only in the fasta as this is not calculated for the FASTQ 
+    #it is not in the table as the value should be the same for all samples
+    #should join to the results dir that contains the tsv files and create new sub folder containing the html pages
+    #uses the html template found in template/
 
     def generate(self, tsv_path:str, file_form:str, output_path: str, html_name: str, filename:str, rc:int, tb:int, al:float):
         if rc != 0:

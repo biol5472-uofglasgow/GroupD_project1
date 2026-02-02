@@ -65,13 +65,15 @@ A sub-folder containing the HTML link(s) should be produced that contains tables
 ## How to run
 run using this format: 
 
-to set up the environment:       
-```python -m venv .venv```          
-```source .venv/bin/activate```   
+set up a virtual environment in python:       
+```python -m venv .venv```            
+```source .venv/bin/activate```  
+```pip install -U pip ```    
 
-install the tool with:     
-```pip install -U pip```       
-```pip install -e .```   
+install the tool with:      
+```
+pip install -i https://test.pypi.org/simple/ groupD-tool    
+```   
 
 view help and arguments:     
 ```groupD_tool -h```      
@@ -88,7 +90,11 @@ run the tool:
 
 - where --input_folder is the folder containing the fasta/fastq files you want to test
 - and --output_folder is where you wish the results to be output to
-- and --log_name is the name you wish to call the log 
+- and --log_name is the name you wish to call the log    
+
+
+For example: 
+```groupD_tool /path/to/samples_folder /path/to/Results/ log```      
 
 
 
