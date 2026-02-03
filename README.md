@@ -94,19 +94,9 @@ groupD_tool --help
 ```      
 
 
-To build the project:     
+running the tool:      
 ```
-python -m pip install -U build
-```     
-
-```
-python -m build
-```     
-
-
-run the tool:      
-```
-groupD_tool --input_folder --output_folder --log_name
+groupD_tool <input_folder> <output_folder> <log_name>
 ```    
      
 
