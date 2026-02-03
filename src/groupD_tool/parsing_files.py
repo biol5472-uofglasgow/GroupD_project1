@@ -1,11 +1,12 @@
 import pyfastx
-import argparse
 import csv
-from typing import Protocol, Any, Tuple
+from typing import Any, Tuple
 
 
-
-
+'''
+Takes in a Fasta file and gets records from it.
+Sets properties of data commonly found in fasta files.
+'''
 class FASTA: 
 
     def __init__(self, path: str) -> None:
@@ -16,9 +17,6 @@ class FASTA:
     def avg_len(self) -> float:
         return self._fa.mean #avg length of bases
     
-    @property 
-    def median_len(self) -> float:
-        return self._fa.median
 
     @property
     def records(self) -> list[dict]:
@@ -52,25 +50,13 @@ class FASTA:
             read_count += 1
             total_bases += len(seq.seq)
         return read_count, total_bases
-    
 
-    @property
-    def summary(self) -> list[dict]:
-        """
-        File-level summary (single-row TSV).
-        """
-        lengths = [len(seq) for seq in self._fa]
-
-        summary_row = {
-            "num_sequences": len(lengths),
-            "average_length": sum(lengths) / len(lengths) if lengths else 0,
-        }
-
-        return [summary_row]
-
+'''
+Writes parsed fasta records to tsv file
+'''
 def write_fasta_tsv(records: list[dict], output_path: str):
     if not records:
-        return # NOTE write an error cacther thing here
+        return 
     
     if not isinstance(records, list) or not records:
         raise TypeError(
@@ -81,10 +67,7 @@ def write_fasta_tsv(records: list[dict], output_path: str):
         raise TypeError(
             f"records[0] must be dict, got {type(records[0])}"
         )
-    
-    #to check if the list contains {}
-    if len(records) == 0: 
-        raise TypeError("records must be non-empty list of dicts")
+
     
     #if the dictionary inside the list has values:
     if len(records[0]) == 0:
@@ -103,7 +86,9 @@ def write_fasta_tsv(records: list[dict], output_path: str):
         writer.writerows(records)
         
     
-
+'''
+Parses FASTQ files using pyfastx functions
+'''
 class FASTQ:
 
     def __init__(self, path: str):
@@ -149,7 +134,9 @@ class FASTQ:
     def phred_score(self) -> float:
         return self._fq.phred
 
-
+'''
+Parses Fastq files and returns sequence quality info
+'''
 class FASTQ_Qual:
 
 
@@ -161,7 +148,7 @@ class FASTQ_Qual:
         read_count = 0
         qual_sum = 0 #total sum of all the ASCII values
         qual_bases = 0 #the bases
-        q30_bases = 0 #bases weith quality scores over 30
+        q30_bases = 0 #bases with quality scores over 30
         read_name = ''
     #get info for all reads in the file: 
         for r in self._fq:
@@ -180,7 +167,10 @@ class FASTQ_Qual:
             q30_bases /qual_bases if qual_bases else 0,
         )
 
+'''
+Assigns the data fields acquired from the fastq file into columns and calls the write_fasta function
 
+'''
 def process_fastq(full_path: str, output_path: str, filename: str):
 
     fq= FASTQ(full_path)
@@ -212,10 +202,12 @@ def process_fastq(full_path: str, output_path: str, filename: str):
 
     write_fastq_tsv(records, output_path)
     
-
+'''
+Checks for fastq records and writes to a tsv file
+'''
 def write_fastq_tsv(records: list[dict], output_path: str):
     if not records:
-        return # NOTE write an error cacther thing here
+        return
 
     
     fieldnames = records[0].keys()
