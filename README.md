@@ -68,20 +68,14 @@ run using this format:
 set up a virtual environment in python:       
 ```
 python -m venv .venv
-```            
-
-```
 source .venv/bin/activate
-```  
-
-```
 pip install -U pip
 ```    
 
 
 install the tool with:      
 ```
-python -m pip install --index-url https://test.pypi.org/simple/ --extra-index-url https://pypi.org/simple groupD_tool    
+python3 -m pip install --index-url https://test.pypi.org/simple/ --no-deps groupD_tool  
 ```   
 
 view help and arguments:     
