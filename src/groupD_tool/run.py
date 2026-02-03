@@ -7,11 +7,10 @@ Setting up argparser to take in arguments at the terminal
 '''
 def cli(): 
   parser = argparse.ArgumentParser(description=' \n', formatter_class=argparse.ArgumentDefaultsHelpFormatter)
-  parser.add_argument('folder_path', help='Input the pathway to the folder containing your fasta/fastq files.\n') #remember to put in checks/exceptions for files in folder that may not be fasta or fastq
-  parser.add_argument('output_path', help= 'The pathway to the folder to store the output files') #User can specify folder pathway for output files tobe stored
-  parser.add_argument('log_name', help= 'The name for the log', default='FastaFastQParser') #user can specify the log file name
+  parser.add_argument('folder_path', help='Input the pathway to the folder containing your fasta/fastq files.\n')
+  parser.add_argument('output_path', help= 'Input the pathway to the folder you want to store the output files') #User can specify folder pathway for output files to be stored
+  parser.add_argument('--log_name', help= 'Input the name you want to use for the log file', default='FastaFastQParser') #user can specify the log file name
   args = parser.parse_args()
 
-#calling main function/method from main.py, using args input at terminal
-#if __name__ == '__main__':
+# calling the functions from main.py
   main.main(args)
