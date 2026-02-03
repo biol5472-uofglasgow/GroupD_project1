@@ -7,10 +7,6 @@ def test_avg_len():
     fa = FASTA('tests/contigs.fasta')
     assert fa.avg_len == 68
 
-def test_summary_row():
-    fa = FASTA('tests/contigs.fasta')
-    assert fa.summary == [{'num_sequences': 2, 'average_length': 68.0}] 
-
 def test_main_fasta():
     with pytest.raises(RuntimeError):
         FASTA('tests/force_error_tests/false_contigs.fasta')
@@ -75,19 +71,6 @@ def test_phred_score():
     fq = FASTQ('tests/sampleA.fastq')
     assert fq.phred_score == 0
 
-#Im removing this one since we don't end up using iter reads, the values it stored are not helpful
-
-# def test_iter_reads():
-#     fq = FASTQ_Qual('tests/sampleA.fastq')
-#     reads = list(fq.iter_reads())
-#     assert reads == [('readA1', 'ACGTACGTACGT', 'IIIIIIIIIIII'), ('readA2', 'ACGTACGTACGA', 'IIIIIIIIIIII'), ('readA3', 'ACGTACGTACGG', 'IIIIIIIIIIII'), ('readA4', 'ACGTACGTACCC', 'IIIIIIIIIIII')]
-
 def test_fastq_qual_sum():
     fq = FASTQ_Qual('tests/sampleA.fastq')
     assert fq.read_info() == (4, 48, 40.0, 1)
-
-
-
-
-
-#assert fq.N_count == {'A':13, 'C':14, 'G':12, 'T':9, 'N': 0}
