@@ -10,7 +10,7 @@ from .HTML_script import HtmlGenerator
 #tool versions, parameters, timestamps ect: 
 def write_json(folder_path:str, output_path:str) -> str:
     j_data = {"tool": "groupD_tool", 
-                "tool version": "0.1.0", 
+                "tool version": "0.0.3", 
                 "date and time":datetime.datetime.now(),
                 "input file(s)": os.listdir(folder_path), 
                 "output file(s)": os.listdir(output_path)}
