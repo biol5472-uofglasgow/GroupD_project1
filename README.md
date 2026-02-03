@@ -88,6 +88,7 @@ view help and arguments:
 ```
 groupD_tool -h
 ```      
+or:     
 
 ```
 groupD_tool --help
@@ -96,7 +97,7 @@ groupD_tool --help
 
 running the tool:      
 ```
-groupD_tool <input_folder> <output_folder> <log_name>
+groupD_tool <input_folder> <output_folder> --log_name <log_name>
 ```    
      
 
@@ -107,7 +108,7 @@ groupD_tool <input_folder> <output_folder> <log_name>
 
 For example: 
 ```
-groupD_tool /path/to/samples_folder /path/to/Results/ log
+groupD_tool /path/to/samples_folder /path/to/Results/ --log_name log
 ```      
 
 
