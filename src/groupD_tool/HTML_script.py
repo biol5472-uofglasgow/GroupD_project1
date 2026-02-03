@@ -15,11 +15,11 @@ TEMPLATE_NAME = 'HTML_template.HTML'
 
 
 class HtmlGenerator(object):
-    def __init__(self, template_name: str):
+    def __init__(self, template_name: str = "HTML_template.HTML"):
         module_dir = Path(__file__).resolve().parent
-        template_dir = module_dir.parent.parent/"template"
+        template_dir = module_dir/"template"
 
-        self.env = Environment(loader=FileSystemLoader(template_dir))
+        self.env = Environment(loader=FileSystemLoader(str(template_dir)))
         self.template_name = template_name
     
     #tsvfile.write(f"\nread_count : {RC}\naverage_length : {average_len}\ntotal_bases : {AL}")

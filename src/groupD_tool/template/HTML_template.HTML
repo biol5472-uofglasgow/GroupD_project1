@@ -1,0 +1,54 @@
+<!--
+jinja documentation from here : https://jinja.palletsprojects.com/en/stable/api/#basics 
+to create tables/table design: https://www.w3schools.com/html/html_tables.asp
+-->
+
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>{{ title }}</title>
+    <style>
+        table, th, td {
+            border: 1.5px solid black;
+            border-collapse: collapse;
+        }
+        tr:nth-child(even) {
+        background-color: #f1c6f1;
+        }
+
+        tr:hover {background-color: #bcc4c4;}
+    </style>
+</head>
+<body>
+
+<!--sample_id, n_seqs_or_reads, total_bases, mean_len, gc_fraction, n_fraction -->
+<h2> {{file_form}} QC metrics</h2>
+
+<p>Overall QC metrics for the input file : "{{filename}}":</p>
+
+<p>{{rc}}</p>
+<p>{{al}}</p>
+<p>{{tb}}</p>
+
+<p>Below is a table containing the QC metrics for each of the samples from "{{filename}}":</p>
+
+
+<table style="width:100%">
+    <tr>
+        {% for c in columns%}
+            <th>{{ c }}</th>
+        {% endfor %}
+    </tr>
+
+    {% for r in rows %}
+        <tr>
+            {% for c in columns %}
+                <td>{{ r[c] }}</td>
+            {% endfor %}
+        </tr>
+    {% endfor %}
+</table>
+
+</body>
+</html>
