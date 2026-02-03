@@ -1,9 +1,8 @@
 import logging
 import os
-import pyfastx
 import json
 import datetime
-from .parsing_files import FASTQ, FASTQ_Qual, FASTA, write_fasta_tsv, write_fastq_tsv, process_fastq
+from .parsing_files import FASTA, write_fasta_tsv, process_fastq
 from typing import Any
 from .HTML_script import HtmlGenerator
 
@@ -42,7 +41,7 @@ def main(args):
 
 
     '''
-    Setting accepted filetypes and folder path variables
+    Setting accepted filetypes and assigning folder path variables
 
     '''
     folder_path = args.folder_path
@@ -55,7 +54,7 @@ def main(args):
 
 
     '''
-    Validating folder paths
+    Validating folder paths exist
 
     '''
                     
@@ -69,7 +68,7 @@ def main(args):
 
 
     '''
-    Defining output actions per file
+    Defining actions per filetype
     
     '''
 
@@ -106,7 +105,7 @@ def main(args):
                 html.generate(out_file, file_form, output_path, html_name, filename, rc, tb, al) 
 
             elif filename.endswith(fastq_filetypes):
-
+                logger.info(f'Parsing file: {filename}')
                 out_file = os.path.join(
                     output_path,
                     f"{os.path.splitext(filename)[0]}.tsv"
@@ -124,10 +123,9 @@ def main(args):
   
         except RuntimeError as e:
             logger.info(f'The file {filename} could not be read. Error: {e}') #log the error
-            raise SystemExit(1) # NOTE, wondering if you guys think SystemExit here is appropriate? Do we want to stop running if a file is broken? or just skip over it?
 
 
-
+    #writes json to output path
     json_path = write_json(folder_path = args.folder_path, output_path = args.output_path)
     logger.info(f"json written to {json_path}")
 
