@@ -218,3 +218,5 @@ __marimo__/
 # Test Folder
 TestFolder
 TestOutputs
+*.fxi
+IntegrationTestOutputs
