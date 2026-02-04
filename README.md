@@ -1,4 +1,4 @@
-# Group D project 1
+# Group D Project 1
 
 
 ## Project 1 — FASTA/FASTQ QC metrics (per-sample table)
@@ -38,17 +38,21 @@ For FASTA files a table containing one row per sample, with columns such as:
 - sample length
 - gc fraction
 - A/C/T/G count
-- n count       
+- N count 
+      
 
 For FASTQ files a table containing one row per sample, with columns such as:  
 - filename
-- mean quality 
-- the fraction of bases with a quality score of over 30
 - total bases 
 - GC fraction
-- average length 
+- average length
 - phred score 
+- nucleotide base counts
 - read count
+- number of bases with a quality score over 30
+- mean quality 
+- the fraction of bases with a quality score of over 30
+
 
 
 ### <ins> The run.json file </ins>     
@@ -105,11 +109,20 @@ For example:
 groupD_tool /path/to/samples_folder /path/to/Results/ --log_name log
 ```      
 
+## How to run tests
+
+Running unit and integration tests with hatch
+
+```
+hatch test
+```
+
+Tested on python 3.9.23
 
 
 ## Libraries used: 
-- pyfastx
-- jinja2
-- mypy
+- pyfastx version 2.3.0
+- jinja2 version 3.1.6
+- mypy for type checking (not included in install package)
 - testing
 
